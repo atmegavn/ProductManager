@@ -1,0 +1,25 @@
+﻿@using System.Linq
+@using Microsoft.AspNetCore.Http.Extensions
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar.LanguageSwitch
+@model LanguageSwitchViewComponentModel
+
+@if (Model.OtherLanguages.Any())
+{
+    <li class="dropdown notification-list topbar-dropdown">
+        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+            <span class="align-middle d-none d-lg-inline-block">@Model.CurrentLanguage.DisplayName</span> <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu">
+            @foreach (var language in Model.OtherLanguages)
+            {
+                <!-- item-->
+                <a class="dropdown-item notify-item" href="~/Abp/Languages/Switch?culture=@(language.CultureName)&uiCulture=@(language.UiCultureName)&returnUrl=@(System.Net.WebUtility.UrlEncode(Context.Request.GetEncodedPathAndQuery()))">
+                    <span class="align-middle">@language.DisplayName</span>
+                </a>
+            }
+        </div>
+    </li>
+}
+
+
+

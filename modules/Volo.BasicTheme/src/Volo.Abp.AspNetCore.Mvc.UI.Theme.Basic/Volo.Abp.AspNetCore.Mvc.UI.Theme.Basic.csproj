@@ -1,0 +1,83 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  
+  
+
+  <PropertyGroup><LangVersion>latest</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <AssemblyName>Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic</AssemblyName>
+    <PackageId>Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic</PackageId>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <IsPackable>true</IsPackable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="wwwroot\themes\hyper\saas\assets\vendor\handlebars\amd\handlebars\runtime.js" />
+    <EmbeddedResource Remove="wwwroot\themes\hyper\saas\assets\vendor\handlebars\cjs\handlebars\runtime.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="6.0.1" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\blueimp-file-upload\node_modules\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons-bs5\node_modules\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons-bs5\node_modules\datatables.net-buttons\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-buttons\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedcolumns-bs5\node_modules\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedcolumns-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedcolumns-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedcolumns\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedcolumns\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedheader-bs5\node_modules\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedheader-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedheader-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedheader\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-fixedheader\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-keytable-bs5\node_modules\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-keytable-bs5\node_modules\datatables.net-keytable\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-keytable-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-keytable\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-responsive\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select-bs5\node_modules\datatables.net-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select-bs5\node_modules\datatables.net-select\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select-bs5\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select-bs5\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net-select\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\daterangepicker\example\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\daterangepicker\node_modules\moment\dist\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\daterangepicker\node_modules\moment\src\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\daterangepicker\node_modules\moment\ts3.1-typings\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\gmaps\docs\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\gmaps\examples\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\gmaps\test\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\ion-rangeslider\less\skins\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\jquery-datatables-checkboxes\node_modules\datatables.net\types\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\jquery-sparkline\src\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\moment\src\" />
+    <Folder Include="wwwroot\themes\hyper\saas\assets\vendor\twitter-bootstrap-wizard\examples\" />
+  </ItemGroup>
+
+</Project>

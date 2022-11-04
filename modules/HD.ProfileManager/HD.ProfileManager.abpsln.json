@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "HD.ProfileManager": {
+      "path": "HD.ProfileManager.abpmdl.json"
+    }
+  }
+}

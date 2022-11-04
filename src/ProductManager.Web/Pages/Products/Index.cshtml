@@ -1,0 +1,26 @@
+﻿@page
+@using ProductManager.Web.Pages.Products
+@using Microsoft.Extensions.Localization
+@using ProductManager.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@inject IStringLocalizer<ProductManagerResource> localizer
+@inject IThemeManager ThemeManager
+@{
+    Layout = ThemeManager.CurrentTheme.GetLayout(StandardLayouts.Application);
+}
+@section scripts
+{
+     <abp-script src="/Pages/Products/Index.js" />
+}
+@model ProductManager.Web.Pages.Products.IndexModel
+
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+</div>
+<div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+
+

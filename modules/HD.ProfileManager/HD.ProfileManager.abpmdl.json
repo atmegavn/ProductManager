@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "HD.ProfileManager.Domain.Shared": {
+      "path": "src/HD.ProfileManager.Domain.Shared/HD.ProfileManager.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Domain": {
+      "path": "src/HD.ProfileManager.Domain/HD.ProfileManager.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Application.Contracts": {
+      "path": "src/HD.ProfileManager.Application.Contracts/HD.ProfileManager.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Application": {
+      "path": "src/HD.ProfileManager.Application/HD.ProfileManager.Application.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.EntityFrameworkCore": {
+      "path": "src/HD.ProfileManager.EntityFrameworkCore/HD.ProfileManager.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.MongoDB": {
+      "path": "src/HD.ProfileManager.MongoDB/HD.ProfileManager.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.HttpApi": {
+      "path": "src/HD.ProfileManager.HttpApi/HD.ProfileManager.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.HttpApi.Client": {
+      "path": "src/HD.ProfileManager.HttpApi.Client/HD.ProfileManager.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.TestBase": {
+      "path": "test/HD.ProfileManager.TestBase/HD.ProfileManager.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.EntityFrameworkCore.Tests": {
+      "path": "test/HD.ProfileManager.EntityFrameworkCore.Tests/HD.ProfileManager.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.MongoDB.Tests": {
+      "path": "test/HD.ProfileManager.MongoDB.Tests/HD.ProfileManager.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.Domain.Tests": {
+      "path": "test/HD.ProfileManager.Domain.Tests/HD.ProfileManager.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.Application.Tests": {
+      "path": "test/HD.ProfileManager.Application.Tests/HD.ProfileManager.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.HttpApi.Host": {
+      "path": "host/HD.ProfileManager.HttpApi.Host/HD.ProfileManager.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.Web": {
+      "path": "src/HD.ProfileManager.Web/HD.ProfileManager.Web.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/HD.ProfileManager.HttpApi.Client.ConsoleTestApp/HD.ProfileManager.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "HD.ProfileManager.Web.Host": {
+      "path": "host/HD.ProfileManager.Web.Host/HD.ProfileManager.Web.Host.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.AuthServer": {
+      "path": "host/HD.ProfileManager.AuthServer/HD.ProfileManager.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.Host.Shared": {
+      "path": "host/HD.ProfileManager.Host.Shared/HD.ProfileManager.Host.Shared.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.Web.Unified": {
+      "path": "host/HD.ProfileManager.Web.Unified/HD.ProfileManager.Web.Unified.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.Blazor": {
+      "path": "src/HD.ProfileManager.Blazor/HD.ProfileManager.Blazor.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Blazor.Host": {
+      "path": "host/HD.ProfileManager.Blazor.Host/HD.ProfileManager.Blazor.Host.abppkg.json",
+      "folder": "host"
+    },
+    "HD.ProfileManager.Blazor.Server": {
+      "path": "src/HD.ProfileManager.Blazor.Server/HD.ProfileManager.Blazor.Server.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Blazor.WebAssembly": {
+      "path": "src/HD.ProfileManager.Blazor.WebAssembly/HD.ProfileManager.Blazor.WebAssembly.abppkg.json",
+      "folder": "src"
+    },
+    "HD.ProfileManager.Blazor.Server.Host": {
+      "path": "host/HD.ProfileManager.Blazor.Server.Host/HD.ProfileManager.Blazor.Server.Host.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

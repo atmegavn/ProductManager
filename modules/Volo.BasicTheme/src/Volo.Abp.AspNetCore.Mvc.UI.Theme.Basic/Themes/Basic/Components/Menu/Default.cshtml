@@ -1,0 +1,31 @@
+﻿@using Volo.Abp.UI.Navigation
+@model ApplicationMenu
+@foreach (var menuItem in Model.Items)
+{
+    var elementId = string.IsNullOrEmpty(menuItem.ElementId) ? string.Empty : $"id=\"{menuItem.ElementId}\"";
+    var cssClass = string.IsNullOrEmpty(menuItem.CssClass) ? string.Empty : menuItem.CssClass;
+    var disabled = menuItem.IsDisabled ? "disabled" : string.Empty;
+    var url = string.IsNullOrEmpty(menuItem.Url) ? "#" : Url.IsLocalUrl(menuItem.Url) ? Url.Content(menuItem.Url.EnsureStartsWith('~')) : menuItem.Url;
+    if (menuItem.IsLeaf)
+    {
+        if (menuItem.Url != null)
+        {
+            <li class="side-nav-item">
+                <a href="@url" target="@menuItem.Target" class="side-nav-link">
+                    <i class="@menuItem.Icon"></i>
+                    <span> @menuItem.DisplayName</span>
+                </a>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="side-nav-title side-nav-item">@menuItem.DisplayName</li>
+        @foreach (var childMenuItem in menuItem.Items)
+        {
+            @await Html.PartialAsync("~/Themes/Basic/Components/Menu/_MenuItem.cshtml", childMenuItem)
+        }
+    }
+}
+
+

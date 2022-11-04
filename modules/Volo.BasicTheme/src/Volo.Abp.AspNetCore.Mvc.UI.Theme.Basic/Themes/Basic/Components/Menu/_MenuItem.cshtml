@@ -1,0 +1,41 @@
+﻿@using Volo.Abp.UI.Navigation
+@model ApplicationMenuItem
+@{
+    var elementId = string.IsNullOrEmpty(Model.ElementId) ? string.Empty : $"id=\"{Model.ElementId}\"";
+    var cssClass = string.IsNullOrEmpty(Model.CssClass) ? string.Empty : Model.CssClass;
+    var disabled = Model.IsDisabled ? "disabled" : string.Empty;
+    var url = string.IsNullOrEmpty(Model.Url) ? "#" : Url.IsLocalUrl(Model.Url) ? Url.Content(Model.Url.EnsureStartsWith('~')) : Model.Url;
+}
+@if (Model.IsLeaf)
+{
+    if (Model.Url != null)
+    {
+        <li class="side-nav-item">
+            <a href="@url" target="@Model.Target" class="side-nav-link" @Html.Raw(elementId)>
+                <i class="@Model.Icon"></i>
+                <span> @Model.DisplayName</span>
+            </a>
+           
+        </li>
+    }
+}
+else
+{
+    <li class="side-nav-item">
+        <a data-bs-toggle="collapse" href="#@(Model.ElementId)" aria-expanded="false" aria-controls="@(Model.ElementId)" class="side-nav-link">
+            <i class="@Model.Icon"></i>
+            <span> @Model.DisplayName </span>
+            <span class="menu-arrow"></span>
+        </a>
+       
+        <div class="collapse" id="@(Model.ElementId)">
+            <ul class="side-nav-second-level">
+                @foreach (var childMenuItem in Model.Items)
+                {
+                    @await Html.PartialAsync("~/Themes/Basic/Components/Menu/_MenuItem.cshtml", childMenuItem)
+                }
+            </ul>
+        </div>
+    </li>
+ 
+}
