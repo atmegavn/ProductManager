@@ -12,4 +12,20 @@
     <ProjectReference Include="..\HD.ProfileManager.Domain.Shared\HD.ProfileManager.Domain.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Employees\Contracts\" />
+    <Folder Include="Employees\Decisions\" />
+    <Folder Include="Employees\Insurance\" />
+    <Folder Include="Organizations\JobTitles\" />
+    <Folder Include="Profiles\Contracts\" />
+    <Folder Include="Profiles\Experiences\" />
+    <Folder Include="Organizations\JobPositions\" />
+    <Folder Include="Organizations\JobLevels\" />
+    <Folder Include="Profiles\Education\" />
+    <Folder Include="Profiles\ProfileLocation\" />
+    <Folder Include="Profiles\Resumes\" />
+    <Folder Include="Profiles\Skills\" />
+    <Folder Include="Profiles\Passports\" />
+  </ItemGroup>
+
 </Project>

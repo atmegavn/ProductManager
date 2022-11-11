@@ -32,5 +32,16 @@ namespace ProductManager.Products
             var count = await _productRepository.GetCountAsync();
             return new PagedResultDto<ProductDto>(count,ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
         }
+
+        Task IProductAppService.CreateAsync(CreateUpdateProductDto input)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ListResultDto<CategoryLookupDto>> IProductAppService.GetCategoriesAsync()
+        {
+            throw new NotImplementedException();
+        }
+       
     }
 }

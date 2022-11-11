@@ -24,6 +24,610 @@ namespace ProductManager.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("HD.ProfileManager.Employees.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTimeOffset>("DateOfOnboard")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OrganzinationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PositionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Employee", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Districts.District", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProvincialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvincialId");
+
+                    b.ToTable("District", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DistrictId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NationalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProvincialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StreetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VillageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("NationalId");
+
+                    b.HasIndex("ProvincialId");
+
+                    b.HasIndex("StreetId");
+
+                    b.HasIndex("VillageId");
+
+                    b.ToTable("Location", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Nationals.National", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("National", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Provincials.Provincial", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("NationalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NationalId");
+
+                    b.ToTable("Provincial", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Streets.Street", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("VillageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VillageId");
+
+                    b.ToTable("Street", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Villages.Village", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DistrictId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Village", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Address", b =>
+                {
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId", "LocationId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ProfileId", "LocationId");
+
+                    b.ToTable("Address", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.BankAccounts.BankAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("BankId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Descriptioin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("BankAccount", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Emails.Email", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Email", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.IDCards.IDCard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<DateTimeOffset>("DateOfBith")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateOfExpiry")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateOfProvided")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("NationalityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonalIdentification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PlaceOfOriginId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PlaceOfResidenceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NationalityId");
+
+                    b.HasIndex("PlaceOfOriginId");
+
+                    b.HasIndex("PlaceOfResidenceId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("IDCard", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.PhoneNumbers.PhoneNumber", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("PhoneNumber", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Profile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTimeOffset>("DateOfBird")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<int>("MaritalStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProfileTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SurName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("TaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileTypeId");
+
+                    b.ToTable("Profile", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.ProfileType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfileType", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Relationships.Relationship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Relationship");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Relatives.Relative", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PersonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RelationshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.HasIndex("RelationshipId");
+
+                    b.ToTable("Relative", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.SocialContacts.SocialContact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("Desciption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SocialNetworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.HasIndex("SocialNetworkId");
+
+                    b.ToTable("SocialContact", "HRM");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.SocialContacts.SocialNetwork", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SocialNetwork", "HRM");
+                });
+
             modelBuilder.Entity("ProductManager.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1584,6 +2188,225 @@ namespace ProductManager.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("HD.ProfileManager.Employees.Employee", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Districts.District", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Provincials.Provincial", "Provincial")
+                        .WithMany()
+                        .HasForeignKey("ProvincialId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Provincial");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Location", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Districts.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Locations.Nationals.National", "National")
+                        .WithMany()
+                        .HasForeignKey("NationalId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Locations.Provincials.Provincial", "Provincial")
+                        .WithMany()
+                        .HasForeignKey("ProvincialId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Locations.Streets.Street", "Street")
+                        .WithMany()
+                        .HasForeignKey("StreetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Locations.Villages.Village", "Village")
+                        .WithMany()
+                        .HasForeignKey("VillageId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("District");
+
+                    b.Navigation("National");
+
+                    b.Navigation("Provincial");
+
+                    b.Navigation("Street");
+
+                    b.Navigation("Village");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Provincials.Provincial", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Nationals.National", "National")
+                        .WithMany()
+                        .HasForeignKey("NationalId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("National");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Streets.Street", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Villages.Village", "Village")
+                        .WithMany()
+                        .HasForeignKey("VillageId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Village");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Locations.Villages.Village", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Districts.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("District");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Address", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("Address")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.BankAccounts.BankAccount", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("BankAccounts")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Emails.Email", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("Emails")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.IDCards.IDCard", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Locations.Nationals.National", "Nationality")
+                        .WithMany()
+                        .HasForeignKey("NationalityId");
+
+                    b.HasOne("HD.ProfileManager.Locations.Location", "PlaceOfOrigin")
+                        .WithMany()
+                        .HasForeignKey("PlaceOfOriginId");
+
+                    b.HasOne("HD.ProfileManager.Locations.Location", "PlaceOfResidence")
+                        .WithMany()
+                        .HasForeignKey("PlaceOfResidenceId");
+
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Nationality");
+
+                    b.Navigation("PlaceOfOrigin");
+
+                    b.Navigation("PlaceOfResidence");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.PhoneNumbers.PhoneNumber", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("PhoneNumbers")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Profile", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.ProfileType", "ProfileType")
+                        .WithMany()
+                        .HasForeignKey("ProfileTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ProfileType");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Relatives.Relative", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("Relatives")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Profiles.Relationships.Relationship", "Relationship")
+                        .WithMany()
+                        .HasForeignKey("RelationshipId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Relationship");
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.SocialContacts.SocialContact", b =>
+                {
+                    b.HasOne("HD.ProfileManager.Profiles.Profile", null)
+                        .WithMany("SocialLinks")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.Profiles.SocialContacts.SocialNetwork", "SocialNetwork")
+                        .WithMany()
+                        .HasForeignKey("SocialNetworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SocialNetwork");
+                });
+
             modelBuilder.Entity("ProductManager.Products.Product", b =>
                 {
                     b.HasOne("ProductManager.Categories.Category", "Category")
@@ -1735,6 +2558,23 @@ namespace ProductManager.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HD.ProfileManager.Profiles.Profile", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("BankAccounts");
+
+                    b.Navigation("Cards");
+
+                    b.Navigation("Emails");
+
+                    b.Navigation("PhoneNumbers");
+
+                    b.Navigation("Relatives");
+
+                    b.Navigation("SocialLinks");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

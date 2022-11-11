@@ -2,9 +2,9 @@
 
 public static class ProfileManagerDbProperties
 {
-    public static string DbTablePrefix { get; set; } = "ProfileManager";
+    public static string DbTablePrefix { get; set; } = null;
 
-    public static string DbSchema { get; set; } = null;
+    public static string DbSchema { get; set; } = "HRM";
 
-    public const string ConnectionStringName = "ProfileManager";
+    public const string ConnectionStringName = "Default";
 }

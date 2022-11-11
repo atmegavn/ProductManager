@@ -79,6 +79,7 @@ public class ProductManagerDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
+        builder.ConfigureProfileManager();
         /* Configure your own tables/entities inside here */
 
         builder.Entity<Category>(b =>
@@ -109,6 +110,6 @@ public class ProductManagerDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
-        builder.ConfigureProfileManager();
+        //builder.ConfigureProfileManager();
         }
 }

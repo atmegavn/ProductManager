@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductManager.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Profile_Manager : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "HRM");
+
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogs",
                 columns: table => new
@@ -277,6 +280,39 @@ namespace ProductManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "National",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_National", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -334,6 +370,21 @@ namespace ProductManager.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictScopes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfileType",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disabled = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfileType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -569,6 +620,59 @@ namespace ProductManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    IsFreeCargo = table.Column<bool>(type: "bit", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StockState = table.Column<byte>(type: "tinyint", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Provincial",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NationalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Provincial", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Provincial_National_NationalId",
+                        column: x => x.NationalId,
+                        principalSchema: "HRM",
+                        principalTable: "National",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
@@ -601,6 +705,41 @@ namespace ProductManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profile",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    FirstName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    SurName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    GivenName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    DateOfBird = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    MaritalStatus = table.Column<int>(type: "int", nullable: false),
+                    TaxCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profile", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Profile_ProfileType_ProfileTypeId",
+                        column: x => x.ProfileTypeId,
+                        principalSchema: "HRM",
+                        principalTable: "ProfileType",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpEntityPropertyChanges",
                 columns: table => new
                 {
@@ -621,6 +760,27 @@ namespace ProductManager.Migrations
                         principalTable: "AbpEntityChanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "District",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProvincialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_District", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_District_Provincial_ProvincialId",
+                        column: x => x.ProvincialId,
+                        principalSchema: "HRM",
+                        principalTable: "Provincial",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -662,6 +822,323 @@ namespace ProductManager.Migrations
                         column: x => x.AuthorizationId,
                         principalTable: "OpenIddictAuthorizations",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BankAccount",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    AccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsMain = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankAccount", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BankAccount_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Email",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPrimary = table.Column<bool>(type: "bit", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Email", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Email_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfOnboard = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrganzinationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employee_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhoneNumber",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPrimary = table.Column<bool>(type: "bit", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneNumber", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PhoneNumber_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Relative",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Relationship = table.Column<int>(type: "int", nullable: false),
+                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Relative", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Relative_Profile_PersonId",
+                        column: x => x.PersonId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SocialLink",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Network = table.Column<int>(type: "int", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SocialLink", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SocialLink_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Village",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DistrictId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Village", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Village_District_DistrictId",
+                        column: x => x.DistrictId,
+                        principalSchema: "HRM",
+                        principalTable: "District",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Street",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VillageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Street", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Street_Village_VillageId",
+                        column: x => x.VillageId,
+                        principalSchema: "HRM",
+                        principalTable: "Village",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Location",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VillageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DistrictId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProvincialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NationalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Location_District_DistrictId",
+                        column: x => x.DistrictId,
+                        principalSchema: "HRM",
+                        principalTable: "District",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Location_National_NationalId",
+                        column: x => x.NationalId,
+                        principalSchema: "HRM",
+                        principalTable: "National",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Location_Provincial_ProvincialId",
+                        column: x => x.ProvincialId,
+                        principalSchema: "HRM",
+                        principalTable: "Provincial",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Location_Street_StreetId",
+                        column: x => x.StreetId,
+                        principalSchema: "HRM",
+                        principalTable: "Street",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Location_Village_VillageId",
+                        column: x => x.VillageId,
+                        principalSchema: "HRM",
+                        principalTable: "Village",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IDCard",
+                schema: "HRM",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    DateOfBith = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    DateOfExpiry = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    NationalityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PlaceOfOriginId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PlaceOfResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PersonalIdentification = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfProvided = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IDCard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IDCard_Location_PlaceOfOriginId",
+                        column: x => x.PlaceOfOriginId,
+                        principalSchema: "HRM",
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_IDCard_Location_PlaceOfResidenceId",
+                        column: x => x.PlaceOfResidenceId,
+                        principalSchema: "HRM",
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_IDCard_National_NationalityId",
+                        column: x => x.NationalityId,
+                        principalSchema: "HRM",
+                        principalTable: "National",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_IDCard_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfileLocation",
+                schema: "HRM",
+                columns: table => new
+                {
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsMain = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfileLocationHRM", x => new { x.ProfileId, x.LocationId });
+                    table.ForeignKey(
+                        name: "FK_ProfileLocationHRM_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalSchema: "HRM",
+                        principalTable: "Location",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfileLocationHRM_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalSchema: "HRM",
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -823,6 +1300,89 @@ namespace ProductManager.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BankAccount_ProfileId",
+                schema: "HRM",
+                table: "BankAccount",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_District_ProvincialId",
+                schema: "HRM",
+                table: "District",
+                column: "ProvincialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Email_ProfileId",
+                schema: "HRM",
+                table: "Email",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_ProfileId",
+                schema: "HRM",
+                table: "Employee",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IDCard_NationalityId",
+                schema: "HRM",
+                table: "IDCard",
+                column: "NationalityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IDCard_PlaceOfOriginId",
+                schema: "HRM",
+                table: "IDCard",
+                column: "PlaceOfOriginId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IDCard_PlaceOfResidenceId",
+                schema: "HRM",
+                table: "IDCard",
+                column: "PlaceOfResidenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IDCard_ProfileId",
+                schema: "HRM",
+                table: "IDCard",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_DistrictId",
+                schema: "HRM",
+                table: "Location",
+                column: "DistrictId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_NationalId",
+                schema: "HRM",
+                table: "Location",
+                column: "NationalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_ProvincialId",
+                schema: "HRM",
+                table: "Location",
+                column: "ProvincialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_StreetId",
+                schema: "HRM",
+                table: "Location",
+                column: "StreetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_VillageId",
+                schema: "HRM",
+                table: "Location",
+                column: "VillageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -851,6 +1411,69 @@ namespace ProductManager.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneNumber_ProfileId",
+                schema: "HRM",
+                table: "PhoneNumber",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Name",
+                table: "Products",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_ProfileTypeId",
+                schema: "HRM",
+                table: "Profile",
+                column: "ProfileTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfileLocationHRM_LocationId",
+                table: "ProfileLocation",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfileLocationHRM_ProfileId_LocationId",
+                table: "ProfileLocation",
+                columns: new[] { "ProfileId", "LocationId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Provincial_NationalId",
+                schema: "HRM",
+                table: "Provincial",
+                column: "NationalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Relative_PersonId",
+                schema: "HRM",
+                table: "Relative",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SocialLink_ProfileId",
+                schema: "HRM",
+                table: "SocialLink",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Street_VillageId",
+                schema: "HRM",
+                table: "Street",
+                column: "VillageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Village_DistrictId",
+                schema: "HRM",
+                table: "Village",
+                column: "DistrictId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -907,10 +1530,44 @@ namespace ProductManager.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BankAccount",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Email",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Employee",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "IDCard",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
+
+            migrationBuilder.DropTable(
+                name: "PhoneNumber",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "ProfileLocationHRM");
+
+            migrationBuilder.DropTable(
+                name: "Relative",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "SocialLink",
+                schema: "HRM");
 
             migrationBuilder.DropTable(
                 name: "AbpEntityChanges");
@@ -931,10 +1588,45 @@ namespace ProductManager.Migrations
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Location",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Profile",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "Street",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "ProfileType",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Village",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "District",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "Provincial",
+                schema: "HRM");
+
+            migrationBuilder.DropTable(
+                name: "National",
+                schema: "HRM");
         }
     }
 }
