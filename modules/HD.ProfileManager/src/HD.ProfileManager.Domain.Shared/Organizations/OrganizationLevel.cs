@@ -10,5 +10,7 @@ namespace HD.ProfileManager.Organizations
         Companies,
         Divisions,
         Departments,
+        Groups,
+        Teams
     }
 }

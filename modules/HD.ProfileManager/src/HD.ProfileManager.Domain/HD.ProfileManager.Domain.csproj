@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -16,6 +16,8 @@
     <Folder Include="Employees\Contracts\" />
     <Folder Include="Employees\Decisions\" />
     <Folder Include="Employees\Insurance\" />
+    <Folder Include="Employees\JobTitles\" />
+    <Folder Include="Employees\JobPositions\" />
     <Folder Include="Organizations\JobTitles\" />
     <Folder Include="Profiles\Contracts\" />
     <Folder Include="Profiles\Experiences\" />

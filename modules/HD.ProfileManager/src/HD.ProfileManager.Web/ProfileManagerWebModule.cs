@@ -9,11 +9,13 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
 using HD.ProfileManager.Permissions;
+using HD.ProfileManager.EntityFrameworkCore;
 
 namespace HD.ProfileManager.Web;
 
 [DependsOn(
     typeof(ProfileManagerApplicationContractsModule),
+    typeof(ProfileManagerEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreMvcUiThemeSharedModule),
     typeof(AbpAutoMapperModule)
     )]

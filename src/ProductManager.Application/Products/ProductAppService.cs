@@ -21,6 +21,9 @@ namespace ProductManager.Products
         }
         public async Task<PagedResultDto<ProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
+            var queries = await _productRepository.GetQueryableAsync();
+            var data = queries.ToList();
+
             var queryable = await _productRepository.WithDetailsAsync(x => x.Category);
 
             queryable = queryable

@@ -14,4 +14,8 @@
     <ProjectReference Include="..\HD.ProfileManager.Domain\HD.ProfileManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Profiles\" />
+  </ItemGroup>
+
 </Project>

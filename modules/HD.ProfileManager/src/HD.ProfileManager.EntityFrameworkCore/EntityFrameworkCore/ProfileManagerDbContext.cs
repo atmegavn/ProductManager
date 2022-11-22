@@ -14,6 +14,7 @@ using HD.ProfileManager.Profiles.Relatives;
 using HD.ProfileManager.Profiles.SocialContacts;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace HD.ProfileManager.EntityFrameworkCore;
