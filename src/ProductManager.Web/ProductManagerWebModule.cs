@@ -239,6 +239,8 @@ namespace ProductManager.Web;
         app.UseAbpSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductManager API");
+            //options.SwaggerEndpoint("/swagger/v1/swagger.json", "ProfileManager API");
+
         });
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();

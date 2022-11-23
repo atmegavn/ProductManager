@@ -30,14 +30,13 @@ namespace HD.ProfileManager.Employees
 
         public async Task<PagedResultDto<EmployeeDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            throw new NotImplementedException();
-            //var queryable = await _employeeRepository.GetQueryableAsync();
+            //throw new NotImplementedException();
+            var queryable = await _employeeRepository.GetQueryableAsync();
+            var employees = await AsyncExecuter.ToListAsync(queryable);
 
-            //queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(x => x.Name);
-            //var employees = await AsyncExecuter.ToListAsync(queryable);
-            //var count = await _employeeRepository.GetCountAsync();
+            var count = await _employeeRepository.CountAsync();
 
-            //return new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(employees));
+            return new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(employees));
         }
 
         public Task<EmployeeDto> UpdateAsync(EmployeeDto employeeDto)

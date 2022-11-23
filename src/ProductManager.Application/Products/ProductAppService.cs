@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 
 namespace ProductManager.Products
 {
@@ -19,6 +20,7 @@ namespace ProductManager.Products
         public ProductAppService(IRepository<Product, Guid> productRepository) {
             _productRepository = productRepository;
         }
+
         public async Task<PagedResultDto<ProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
             var queries = await _productRepository.GetQueryableAsync();
@@ -31,7 +33,6 @@ namespace ProductManager.Products
                 .Take(input.MaxResultCount);
 
             var products = await AsyncExecuter.ToListAsync(queryable);
-            //var products = queryable.ToList();
             var count = await _productRepository.GetCountAsync();
             return new PagedResultDto<ProductDto>(count,ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
         }

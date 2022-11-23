@@ -15,7 +15,7 @@ namespace HD.ProfileManager.Web.Pages.Employees
     {
         private readonly IEmployeeAppService _employeeAppService;
         public PagedResultDto<EmployeeDto> Data { get; set; }
-
+        public string test = "test";
         public IndexModel(IEmployeeAppService employeeAppService)
         {
             _employeeAppService = employeeAppService;
@@ -23,6 +23,8 @@ namespace HD.ProfileManager.Web.Pages.Employees
 
         public async void OnGetAsync(PagedAndSortedResultRequestDto input)
         {
+            test = "Thanh";
+            
             Data = await _employeeAppService.GetListAsync(input);
         }
     }
