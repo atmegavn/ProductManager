@@ -34,9 +34,9 @@ public class ProductManagerMenuContributor : IMenuContributor
             )
         );
 
-        context.Menu.AddItem(
-            new ApplicationMenuItem("ProductManager", localizer["Menu:Human Resource Management"],icon: "mdi mdi-home").AddItem(new ApplicationMenuItem("Products",localizer["Menu:Profile"],url: "/Products", icon: "mdi mdi-account"))
-        );
+        //context.Menu.AddItem(
+        //    new ApplicationMenuItem("ProductManager", localizer["Menu:Human Resource Management"],icon: "mdi mdi-home").AddItem(new ApplicationMenuItem("Products",localizer["Menu:Profile"],url: "/Products", icon: "mdi mdi-account"))
+        //);
 
         if (MultiTenancyConsts.IsEnabled)
         {

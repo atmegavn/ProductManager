@@ -32,12 +32,16 @@
     <EmbeddedResource Include="Pages\**\*.js" />
     <EmbeddedResource Include="Components\**\*.js" />
     <EmbeddedResource Include="Components\**\*.css" />
-    <EmbeddedResource Include="wwwroot\**\*.*" />
     <Content Remove="Pages\**\*.css" />
     <Content Remove="Pages\**\*.js" />
     <Content Remove="Components\**\*.js" />
     <Content Remove="Components\**\*.css" />
-    <Content Remove="wwwroot\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\css\app-saas-rtl.min.css.map" />
+    <None Include="wwwroot\assets\css\app-saas.min.css.map" />
+    <None Include="wwwroot\assets\css\icons.min.css.map" />
   </ItemGroup>
 
 </Project>

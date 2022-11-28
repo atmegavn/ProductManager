@@ -6,5 +6,5 @@ namespace ProductManager.Web;
 [Dependency(ReplaceServices = true)]
 public class ProductManagerBrandingProvider : DefaultBrandingProvider
 {
-    public override string AppName => "Human Resource Management";
+    public override string AppName => "HDVietnam - HRM";
 }

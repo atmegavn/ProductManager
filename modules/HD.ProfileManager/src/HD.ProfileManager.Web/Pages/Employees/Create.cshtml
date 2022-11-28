@@ -1,0 +1,87 @@
+﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@model HD.ProfileManager.Web.Pages.Employees.CreateModel
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
+@{
+    ViewBag.Title = @Localizer["Create new employee"].ToString();
+    
+}
+
+
+
+<div class="container-lg">
+    <form id="create-story-form" class="needs-validation" asp-action="@ViewContext.RouteData.Values["action"]" method="post" role="form" novalidate>
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="@Url.Page("Index")">@Localizer["Employees"] </a></li>
+                            <li class="breadcrumb-item active">@Localizer["Create"]</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">@Localizer["Create new employee"]</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-sm btn-primary btn-">
+                    <span class="mdi mdi-content-save"></span> @Localizer["Save"]
+                </button>
+
+                <a href="@Html.Raw(Model.BackUrl)" class="btn btn-sm btn-secondary">
+                    <span class="mdi mdi-keyboard-return"></span> @Localizer["Back"]
+                </a>
+            </div>
+        </div>
+        <hr />
+        @{
+            if (ViewData["Exception"] != null)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="ri-close-circle-line me-2"></i> @ViewData["Exception"]
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label asp-for="Employee.Code" class="form-label">@Localizer["Code"]</label>
+                        <input type="text" asp-for="Employee.Code" class="form-control" required>
+                        <span asp-validation-for="Employee.Code"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Employee.Name" class="form-label">@Localizer["Name"]</label>
+                        <input type="text" asp-for="Employee.Name" class="form-control" required>
+                        <span asp-validation-for="Employee.Name"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Employee.DateOfOnboard" class="form-label">@Localizer["Date Of Onboard"]</label>
+                        <input type="date" asp-for="Employee.DateOfOnboard" class="form-control" required>
+                        <span asp-validation-for="Employee.DateOfOnboard"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Employee.Mobile" class="form-label">Mobile</label>
+                        <input type="text" asp-for="Employee.Mobile" class="form-control" required >
+                        <span asp-validation-for="Employee.Mobile"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Employee.Email" class="form-label">Email</label>
+                        <input type="email" asp-for="Employee.Email" class="form-control" required>
+                        <span asp-validation-for="Employee.Email"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -19,8 +19,11 @@ public class ProfileManagerMenuContributor : IMenuContributor
         var administration = context.Menu.GetAdministration();
         var localizer = context.GetLocalizer<ProfileManagerResource>();
         //Add main menu items.
-        context.Menu.AddItem(new ApplicationMenuItem(ProfileManagerMenus.Prefix, displayName: localizer["Profile Manager"], "~/ProfileManager", icon: "mdi mdi-file-account"));
-
+        context.Menu.AddItem(new ApplicationMenuItem(ProfileManagerMenus.Prefix, localizer["Human Resource Management"], icon: "mdi mdi-home")
+            .AddItem(new ApplicationMenuItem(ProfileManagerMenus.Prefix, localizer["Employees"], url: "/Employees", icon: "mdi mdi-account"))
+            .AddItem(new ApplicationMenuItem(ProfileManagerMenus.Prefix, localizer["Profiles"], url: "/Profiles", icon: "mdi mdi-file-account"))
+            .AddItem(new ApplicationMenuItem(ProfileManagerMenus.Prefix, localizer["Organizations"], url: "/Organizations", icon: "mdi mdi-office-building"))
+        );
         return Task.CompletedTask;
     }
 }
