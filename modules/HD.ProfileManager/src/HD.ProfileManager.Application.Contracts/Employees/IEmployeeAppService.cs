@@ -9,9 +9,13 @@ namespace HD.ProfileManager.Employees
 {
     public interface IEmployeeAppService: IApplicationService
     {
-        Task<EmployeeDto> UpdateAsync(EmployeeDto employeeDto); 
-        Task DeleteAsync(Guid id);    
-        Task<EmployeeDto> CreateAsync(EmployeeDto employeeDto);
+        Task<EmployeeDto> GetAsync(Guid id);
         Task<PagedResultDto<EmployeeDto>> GetListAsync(PagedAndSortedResultRequestDto input);
+        Task CreateAsync(CreateEmployeeDto input);
+
+        Task UpdateAsync(Guid id, UpdateEmployeeDto input);
+
+        Task DeleteAsync(Guid id);
+
     }
 }

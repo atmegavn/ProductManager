@@ -11,16 +11,17 @@ using Volo.Abp.Domain.Repositories;
 
 namespace HD.ProfileManager.Employees
 {
-    public class EmployeeAppService: ProfileManagerAppService, IEmployeeAppService
+    public class EmployeeAppService : ProfileManagerAppService, IEmployeeAppService
     {
         private readonly IRepository<Employee, Guid> _employeeRepository;
-        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository) {
+        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository) { 
             _employeeRepository = employeeRepository;
         }
 
-        public Task<EmployeeDto> CreateAsync(EmployeeDto employeeDto)
+        public async Task CreateAsync(CreateEmployeeDto input)
         {
-            throw new NotImplementedException();
+           var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
+           await _employeeRepository.InsertAsync(employee);
         }
 
         public Task DeleteAsync(Guid id)
@@ -28,21 +29,24 @@ namespace HD.ProfileManager.Employees
             throw new NotImplementedException();
         }
 
-        public async Task<PagedResultDto<EmployeeDto>> GetListAsync(PagedAndSortedResultRequestDto input)
-        {
-            //throw new NotImplementedException();
-            var queryable = await _employeeRepository.GetQueryableAsync();
-            var employees = await AsyncExecuter.ToListAsync(queryable);
-
-            var count = await _employeeRepository.CountAsync();
-
-            return new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(employees));
-        }
-
-        public Task<EmployeeDto> UpdateAsync(EmployeeDto employeeDto)
+        public Task<EmployeeDto> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
-      
+
+        public Task UpdateAsync(Guid id, UpdateEmployeeDto input)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
+        {
+            var queryable = await _employeeRepository.WithDetailsAsync(x => x.Profile);
+            queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(e => e.Name);
+
+            var data = await AsyncExecuter.ToListAsync(queryable);
+            var count = await _employeeRepository.GetCountAsync();
+            return new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
+        }
     }
 }
