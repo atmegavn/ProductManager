@@ -13,7 +13,7 @@ namespace HD.ProfileManager.Employees
         public string Email { get; set; }
         public string Mobile { get; set; }
         public Guid ProfileId { get; set; }
-        public Guid PositionId { get; set; }
+        public Guid JobTitleId { get; set; }
         public Guid OrganzinationId { get; set; }
     }
 }

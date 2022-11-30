@@ -41,7 +41,7 @@ namespace HD.ProfileManager.Employees
 
         async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            var queryable = await _employeeRepository.WithDetailsAsync(x => x.Profile);
+            var queryable = await _employeeRepository.GetQueryableAsync();
             queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(e => e.Name);
 
             var data = await AsyncExecuter.ToListAsync(queryable);

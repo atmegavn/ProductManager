@@ -1,0 +1,10 @@
+﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
+@model HD.ProfileManager.Web.Pages.Profiles.CreateModel
+@{
+    ViewBag.Title = Localizer["Create new profile"];
+}
+

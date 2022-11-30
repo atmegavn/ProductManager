@@ -1,15 +1,21 @@
-﻿using HD.ProfileManager.Employees;
+﻿using HD.ProfileManager.Decisions;
+using HD.ProfileManager.Employees;
+using HD.ProfileManager.JobPositions;
+using HD.ProfileManager.JobTitles;
 using HD.ProfileManager.Locations;
 using HD.ProfileManager.Locations.Districts;
 using HD.ProfileManager.Locations.Nationals;
 using HD.ProfileManager.Locations.Provincials;
 using HD.ProfileManager.Locations.Streets;
 using HD.ProfileManager.Locations.Villages;
+using HD.ProfileManager.OrganizationPositions;
+using HD.ProfileManager.Organizations;
 using HD.ProfileManager.Profiles;
 using HD.ProfileManager.Profiles.BankAccounts;
 using HD.ProfileManager.Profiles.Emails;
 using HD.ProfileManager.Profiles.IDCards;
 using HD.ProfileManager.Profiles.PhoneNumbers;
+using HD.ProfileManager.Profiles.Relationships;
 using HD.ProfileManager.Profiles.Relatives;
 using HD.ProfileManager.Profiles.SocialContacts;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +68,107 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             //Configure table & schema name
             b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "Employee", ProfileManagerDbProperties.DbSchema);
             b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Code).IsRequired().HasMaxLength(EmployeeConsts.CodeMaxLength);
+            b.Property(p => p.Name).IsRequired().HasMaxLength(EmployeeConsts.NameMaxLength);
+            b.Property(p => p.Avatar).IsRequired(false);
+            b.Property(p => p.OrganzinationId).IsRequired();
+            b.Property(p => p.ProfileId).IsRequired(false);
+            b.Property(p => p.JobTitleId).IsRequired(false);
+
+            b.HasOne(p => p.JobTitle).WithMany().HasForeignKey(pt => pt.JobTitleId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasMany(p => p.Positions).WithOne().HasForeignKey(r => r.EmployeeId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+
             b.ConfigureByConvention();
+        });
+       
+
+        builder.Entity<Organization>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "Organization", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Code).IsRequired().HasMaxLength(EmployeeConsts.CodeMaxLength);
+            b.Property(p => p.Name).IsRequired().HasMaxLength(EmployeeConsts.NameMaxLength);
+            b.Property(p => p.ParentId).IsRequired(false);
+            b.Property(p => p.Location).IsRequired(false);
+            b.Property(p => p.Disabled).IsRequired(false);
+
+            b.HasMany(p => p.Positions).WithOne().HasForeignKey(r => r.JobPositionId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<OrganizationPosition>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "OrganizationPosition", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Name).IsRequired().HasMaxLength(EmployeeConsts.NameMaxLength);
+            b.Property(p => p.DecisionId).IsRequired(false);
+            b.Property(p => p.EmployeeId).IsRequired(false);
+            b.Property(p => p.OrganizationId).IsRequired(true);
+
+            b.HasOne(p => p.Position).WithMany().HasForeignKey(r => r.JobPositionId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            //b.HasOne(p => p.Organization).WithMany().HasForeignKey(r => r.OrganizationId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasOne(p => p.Employee).WithMany().HasForeignKey(r => r.EmployeeId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasOne(p => p.Decision).WithMany().HasForeignKey(r => r.DecisionId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<JobTitle>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "JobTitle", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.Disabled).IsRequired(false);
+
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<JobPosition>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "JobPosition", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.Disabled).IsRequired(false);
+
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Decision>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "Decision", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.DecisionMakerId).IsRequired();
+            b.Property(p => p.DecisionReceiverId).IsRequired(false);
+            b.Property(p => p.Note).IsRequired(false);
+            b.Property(p => p.ApplyDate).IsRequired(false);
+            b.Property(p => p.Number).IsRequired();
+            b.Property(p => p.ExperiedDate).IsRequired(false);
+            b.Property(p => p.Description).IsRequired(false);
+
+            b.HasOne(p => p.DecisionMaker).WithMany().HasForeignKey(p => p.DecisionMakerId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasOne(p => p.DecisionType).WithMany().HasForeignKey(p => p.TypeId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasOne(p => p.DecisionReceiver).WithMany().HasForeignKey(p => p.DecisionReceiverId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<DecisionType>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "DecisionType", ProfileManagerDbProperties.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.Disabled).IsRequired(false);
         });
 
         builder.Entity<ProfileType>(b =>
@@ -124,6 +230,18 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             b.Property(p => p.PersonId).IsRequired(false);
             b.HasOne<Profile>().WithMany().HasForeignKey(r => r.PersonId).OnDelete(DeleteBehavior.NoAction).IsRequired(false);
             b.HasOne(r => r.Relationship).WithMany().HasForeignKey(r => r.RelationshipId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+        });
+
+        builder.Entity<Relationship>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "Relationship", ProfileManagerDbProperties.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.Disabled).IsRequired(false);
         });
 
         builder.Entity<SocialContact>(b =>

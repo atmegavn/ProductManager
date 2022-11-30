@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Values;
 
-namespace HD.ProfileManager.Profiles.Relationships
+namespace HD.ProfileManager.Decisions
 {
-    public class Relationship : Entity<Guid>
+    public class DecisionType: Entity<Guid>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public bool? Disabled { get; set; }
-      
     }
 }

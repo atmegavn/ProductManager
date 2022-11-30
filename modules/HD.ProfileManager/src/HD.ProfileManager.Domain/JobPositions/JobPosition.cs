@@ -1,16 +1,16 @@
-﻿using System;
+﻿using HD.ProfileManager.OrganizationPositions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Values;
 
-namespace HD.ProfileManager.Profiles.Relationships
+namespace HD.ProfileManager.JobPositions
 {
-    public class Relationship : Entity<Guid>
+    public class JobPosition: Entity<Guid>
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public bool? Disabled { get; set; }
-      
+
     }
 }
