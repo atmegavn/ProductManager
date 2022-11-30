@@ -18,10 +18,19 @@ namespace HD.ProfileManager.Employees
             _employeeRepository = employeeRepository;
         }
 
-        public async Task CreateAsync(CreateEmployeeDto input)
+        public async Task<EmployeeDto> CreateAsync(CreateEmployeeDto input)
         {
-           var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
+           //var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
+           var employee = new Employee();
+            employee.Code = input.Code;
+            employee.Name = input.Name;
+            employee.DateOfOnboard = input.DateOfOnboard;
+            employee.CreationTime = new DateTime();
+            employee.IsDeleted = false;
+
            await _employeeRepository.InsertAsync(employee);
+         
+           return ObjectMapper.Map<Employee, EmployeeDto>(employee);
         }
 
         public Task DeleteAsync(Guid id)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductManager.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ProductManager.Migrations
 {
     [DbContext(typeof(ProductManagerDbContext))]
-    partial class ProductManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221130002725_Orgination_position_7")]
+    partial class Orgination_position_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -412,6 +414,9 @@ namespace ProductManager.Migrations
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PositionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DecisionId");
@@ -423,6 +428,8 @@ namespace ProductManager.Migrations
                     b.HasIndex("JobPositionId");
 
                     b.HasIndex("OrganizationId");
+
+                    b.HasIndex("PositionId");
 
                     b.ToTable("OrganizationPosition", "HRM");
                 });
@@ -2576,12 +2583,6 @@ namespace ProductManager.Migrations
                         .WithMany("Positions")
                         .HasForeignKey("EmployeeId1");
 
-                    b.HasOne("HD.ProfileManager.JobPositions.JobPosition", "Position")
-                        .WithMany()
-                        .HasForeignKey("JobPositionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("HD.ProfileManager.Organizations.Organization", null)
                         .WithMany("Positions")
                         .HasForeignKey("JobPositionId")
@@ -2591,6 +2592,12 @@ namespace ProductManager.Migrations
                     b.HasOne("HD.ProfileManager.Organizations.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("HD.ProfileManager.JobPositions.JobPosition", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

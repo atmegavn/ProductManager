@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HD.ProfileManager.Employees
 {
-    public class CreateEmployeeDto: IValidatableObject
+    public class CreateEmployeeDto
     {
         [Required]
         [StringLength(EmployeeConsts.CodeMaxLength)]
@@ -21,10 +21,6 @@ namespace HD.ProfileManager.Employees
         [Required]
         [StringLength(EmployeeConsts.MobileMaxLength)]
         public string Mobile { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

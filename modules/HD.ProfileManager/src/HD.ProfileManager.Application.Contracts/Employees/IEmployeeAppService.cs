@@ -11,7 +11,7 @@ namespace HD.ProfileManager.Employees
     {
         Task<EmployeeDto> GetAsync(Guid id);
         Task<PagedResultDto<EmployeeDto>> GetListAsync(PagedAndSortedResultRequestDto input);
-        Task CreateAsync(CreateEmployeeDto input);
+        Task<EmployeeDto> CreateAsync(CreateEmployeeDto input);
 
         Task UpdateAsync(Guid id, UpdateEmployeeDto input);
 

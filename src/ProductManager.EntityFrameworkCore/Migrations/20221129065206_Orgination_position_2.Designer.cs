@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductManager.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ProductManager.Migrations
 {
     [DbContext(typeof(ProductManagerDbContext))]
-    partial class ProductManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221129065206_Orgination_position_2")]
+    partial class Orgination_position_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,82 +25,6 @@ namespace ProductManager.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("HD.ProfileManager.Decisions.Decision", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
-
-                    b.Property<DateTimeOffset?>("ApplyDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("DecisionMakerId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DecisionReceiverId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("ExperiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("OrganizationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("SignDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DecisionMakerId");
-
-                    b.HasIndex("DecisionReceiverId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("Decision", "HRM");
-                });
-
-            modelBuilder.Entity("HD.ProfileManager.Decisions.DecisionType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Disabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DecisionType", "HRM");
-                });
 
             modelBuilder.Entity("HD.ProfileManager.Employees.Employee", b =>
                 {
@@ -189,44 +115,40 @@ namespace ProductManager.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Disabled")
+                    b.Property<bool>("Disabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobPosition", "HRM");
+                    b.ToTable("JobPosition");
                 });
 
             modelBuilder.Entity("HD.ProfileManager.JobTitles.JobTitle", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Disabled")
+                    b.Property<bool>("Disabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTitle", "HRM");
+                    b.ToTable("JobTitle");
                 });
 
             modelBuilder.Entity("HD.ProfileManager.Locations.Districts.District", b =>
@@ -398,9 +320,6 @@ namespace ProductManager.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("JobPositionId")
                         .HasColumnType("uniqueidentifier");
 
@@ -414,15 +333,7 @@ namespace ProductManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DecisionId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EmployeeId1");
-
                     b.HasIndex("JobPositionId");
-
-                    b.HasIndex("OrganizationId");
 
                     b.ToTable("OrganizationPosition", "HRM");
                 });
@@ -770,22 +681,20 @@ namespace ProductManager.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newid()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Disabled")
+                    b.Property<bool>("Disabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Relationship", "HRM");
+                    b.ToTable("Relationship");
                 });
 
             modelBuilder.Entity("HD.ProfileManager.Profiles.Relatives.Relative", b =>
@@ -2433,33 +2342,6 @@ namespace ProductManager.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("HD.ProfileManager.Decisions.Decision", b =>
-                {
-                    b.HasOne("HD.ProfileManager.Employees.Employee", "DecisionMaker")
-                        .WithMany()
-                        .HasForeignKey("DecisionMakerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("HD.ProfileManager.Employees.Employee", "DecisionReceiver")
-                        .WithMany()
-                        .HasForeignKey("DecisionReceiverId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("HD.ProfileManager.Decisions.DecisionType", "DecisionType")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("DecisionMaker");
-
-                    b.Navigation("DecisionReceiver");
-
-                    b.Navigation("DecisionType");
-                });
-
             modelBuilder.Entity("HD.ProfileManager.Employees.Employee", b =>
                 {
                     b.HasOne("HD.ProfileManager.JobTitles.JobTitle", "JobTitle")
@@ -2560,22 +2442,6 @@ namespace ProductManager.Migrations
 
             modelBuilder.Entity("HD.ProfileManager.OrganizationPositions.OrganizationPosition", b =>
                 {
-                    b.HasOne("HD.ProfileManager.Decisions.Decision", "Decision")
-                        .WithMany()
-                        .HasForeignKey("DecisionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("HD.ProfileManager.Employees.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("HD.ProfileManager.Employees.Employee", null)
-                        .WithMany("Positions")
-                        .HasForeignKey("EmployeeId1");
-
                     b.HasOne("HD.ProfileManager.JobPositions.JobPosition", "Position")
                         .WithMany()
                         .HasForeignKey("JobPositionId")
@@ -2587,18 +2453,6 @@ namespace ProductManager.Migrations
                         .HasForeignKey("JobPositionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("HD.ProfileManager.Organizations.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Decision");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Organization");
 
                     b.Navigation("Position");
                 });
@@ -2875,11 +2729,6 @@ namespace ProductManager.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HD.ProfileManager.Employees.Employee", b =>
-                {
-                    b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("HD.ProfileManager.Organizations.Organization", b =>
