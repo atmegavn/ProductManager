@@ -6,9 +6,7 @@
 
 @{
     ViewBag.Title = @Localizer["Create new employee"].ToString();
-    
 }
-
 
 
 <div class="container-md">
@@ -55,31 +53,32 @@
             <div class="col-12">
                 <div class="form-group">
                     <div class="mb-3">
-                        <label asp-for="Employee.Code" class="form-label">@Localizer["Code"]</label>
-                        <input type="text" asp-for="Employee.Code" class="form-control" required>
-                        <span asp-validation-for="Employee.Code"></span>
+                        <label asp-for="Form.Code" class="form-label">@Localizer["Code"]</label>
+                        <input type="text" asp-for="Form.Code" class="form-control" required>
+                        <span asp-validation-for="Form.Code"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Employee.Name" class="form-label">@Localizer["Name"]</label>
-                        <input type="text" asp-for="Employee.Name" class="form-control" required>
-                        <span asp-validation-for="Employee.Name"></span>
+                        <label asp-for="Form.Name" class="form-label">@Localizer["Name"]</label>
+                        <input type="text" asp-for="Form.Name" class="form-control" required>
+                        <span asp-validation-for="Form.Name"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Employee.DateOfOnboard" class="form-label">@Localizer["Date Of Onboard"]</label>
-                        <input type="date" asp-for="Employee.DateOfOnboard" class="form-control" required>
-                        <span asp-validation-for="Employee.DateOfOnboard"></span>
+                        <label asp-for="Form.DateOfOnboard" class="form-label">@Localizer["Date Of Onboard"]</label>
+                        <input type="date" asp-for="Form.DateOfOnboard" class="form-control" required>
+                        <span asp-validation-for="Form.DateOfOnboard"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Employee.Mobile" class="form-label">Mobile</label>
-                        <input type="text" asp-for="Employee.Mobile" class="form-control" required >
-                        <span asp-validation-for="Employee.Mobile"></span>
+                        <label asp-for="Form.Mobile" class="form-label">Mobile</label>
+                        <input type="text" asp-for="Form.Mobile" class="form-control" required >
+                        <span asp-validation-for="Form.Mobile"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Employee.Email" class="form-label">Email</label>
-                        <input type="email" asp-for="Employee.Email" class="form-control" required>
-                        <span asp-validation-for="Employee.Email"></span>
+                        <label asp-for="Form.Email" class="form-label">Email</label>
+                        <input type="email" asp-for="Form.Email" class="form-control" required>
+                        <span asp-validation-for="Form.Email"></span>
                     </div>
+                    <input asp-for="Form.BackUrl" class="gu-hide" /> 
                 </div>
             </div>
         </div>

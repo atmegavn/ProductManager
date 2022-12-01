@@ -10,9 +10,11 @@ namespace HD.ProfileManager.Employees
         [Required]
         [StringLength(EmployeeConsts.CodeMaxLength)]
         public string Code { get; set; }
+
         [Required]
         [StringLength(EmployeeConsts.NameMaxLength)]
         public string Name { get; set; }
+
         [Required]
         public DateTimeOffset DateOfOnboard { get; set; }
         [Required]
@@ -21,6 +23,7 @@ namespace HD.ProfileManager.Employees
         [Required]
         [StringLength(EmployeeConsts.MobileMaxLength)]
         public string Mobile { get; set; }
+        public string BackUrl { get; set; }
        
     }
 }

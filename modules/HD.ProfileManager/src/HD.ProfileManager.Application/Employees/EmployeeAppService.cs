@@ -20,15 +20,13 @@ namespace HD.ProfileManager.Employees
 
         public async Task<EmployeeDto> CreateAsync(CreateEmployeeDto input)
         {
-           //var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
-           var employee = new Employee();
+            //var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
+            var employee = new Employee();
             employee.Code = input.Code;
             employee.Name = input.Name;
             employee.DateOfOnboard = input.DateOfOnboard;
-            employee.CreationTime = new DateTime();
-            employee.IsDeleted = false;
 
-           await _employeeRepository.InsertAsync(employee);
+            await _employeeRepository.InsertAsync(employee);
          
            return ObjectMapper.Map<Employee, EmployeeDto>(employee);
         }
@@ -50,12 +48,15 @@ namespace HD.ProfileManager.Employees
 
         async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
         {
+            input.MaxResultCount = 2;
             var queryable = await _employeeRepository.GetQueryableAsync();
             queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(e => e.Name);
 
             var data = await AsyncExecuter.ToListAsync(queryable);
             var count = await _employeeRepository.GetCountAsync();
-            return new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
+
+            var result = new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
+            return result;
         }
     }
 }

@@ -2,10 +2,33 @@
 @using HD.ProfileManager.Localization
 @using Microsoft.Extensions.Localization
 @using HD.ProfileManager.Web.Pages.Employees
+@using Volo.Abp.Application.Dtos;
+
 @inject IStringLocalizer<ProfileManagerResource> Localizer
 @model IndexModel
 @{
     var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    int pageSize = 2;
+    var totalPages = (Model.Result.TotalCount / pageSize) + 1;
+    var totalCount = Model.Result.TotalCount;
+
+    var currentPaging = Model.Params;
+    long startPage = currentPaging.SkipCount + 1;
+    long endPage = currentPaging.SkipCount + pageSize;
+    if (endPage > totalCount) endPage = totalCount; 
+
+    PagedAndSortedResultRequestDto nextPaging = new PagedAndSortedResultRequestDto();
+    PagedAndSortedResultRequestDto prevPaging = new PagedAndSortedResultRequestDto();
+
+    nextPaging.SkipCount = currentPaging.SkipCount + pageSize;
+    nextPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    prevPaging.SkipCount = currentPaging.SkipCount - pageSize;
+    prevPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    var isDisablePrev = currentPaging.SkipCount == 0 ? "disabled" : "";
+    var isDisableNext = endPage >= totalCount ? "disabled" : "";
+
 }
 
 <div class="row">
@@ -27,21 +50,25 @@
     </div> <!-- end col -->
 
 </div>
+
 <div class="row">
     <div class="col-12">
         <a class="btn btn-sm btn-primary" href="@Url.Page("Create", new { backUrl = currentUrl })"><i class="mdi mdi-account-plus"></i> @Localizer["Create"]</a>
         <nav class="float-end">
             <ul class="pagination mb-0">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <li class="page-item @isDisablePrev">
+                    <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true">Previous</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
+                <li class="page-item disabled" aria-current="page">
+                    <a class="page-link" href="#">
+                    @{
+                        var pageInfor = Model.Result.TotalCount > 0 ? $"Display {startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"]; 
+                    }
+                        @pageInfor
+                    </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                <li class="page-item @isDisableNext">
+                    <a class="page-link" href="@Url.Page("Index", nextPaging)">Next</a>
                 </li>
             </ul>
         </nav>
@@ -55,7 +82,7 @@
 
 <div class="row">
 
-    @foreach (var employee in Model.Data.Items)
+    @foreach (var employee in Model.Result.Items)
     {
         <div class="col-md-6 col-xxl-3">
             <div class="card">

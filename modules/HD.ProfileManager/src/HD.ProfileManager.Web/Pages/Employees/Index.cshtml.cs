@@ -15,8 +15,8 @@ namespace HD.ProfileManager.Web.Pages.Employees
     public class IndexModel : ProfileManagerPageModel
     {
         private readonly IEmployeeAppService _employeeAppService;
-        public PagedResultDto<EmployeeDto> Data { get; set; }
-        public string test = "test";
+        public PagedResultDto<EmployeeDto> Result { get; set; }
+        public PagedAndSortedResultRequestDto Params = new PagedAndSortedResultRequestDto();
         public IndexModel(IEmployeeAppService employeeAppService)
         {
             _employeeAppService = employeeAppService;
@@ -24,8 +24,8 @@ namespace HD.ProfileManager.Web.Pages.Employees
 
         public async Task OnGetAsync(PagedAndSortedResultRequestDto input)
         {
-            test = "Thanh";
-            Data = await _employeeAppService.GetListAsync(input);
+            Params = input;
+            Result = await _employeeAppService.GetListAsync(input);
         }
     }
 }

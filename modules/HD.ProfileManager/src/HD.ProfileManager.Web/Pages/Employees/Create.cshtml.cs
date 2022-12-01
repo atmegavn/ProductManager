@@ -10,7 +10,7 @@ namespace HD.ProfileManager.Web.Pages.Employees
 {
     public class CreateModel : ProfileManagerPageModel
     {
-        public CreateEmployeeDto Employee { get; set; }
+        public CreateEmployeeDto Form { get; set; }
         public string BackUrl { get; set; }
         private readonly IEmployeeAppService _employeeAppService;
         public CreateModel(IEmployeeAppService employeeAppService)
@@ -21,24 +21,31 @@ namespace HD.ProfileManager.Web.Pages.Employees
         public async Task OnGetAsync(string backUrl)
         {
             BackUrl = string.IsNullOrEmpty(backUrl) ? "Index" : backUrl;
-            Employee = new CreateEmployeeDto();
-            Employee.DateOfOnboard = DateTime.Today;
+            Form = new CreateEmployeeDto();
+            Form.BackUrl = backUrl;
+            Form.DateOfOnboard = DateTime.Today;
         }
 
-        public async Task<ActionResult> OnPostAsync(CreateEmployeeDto employee)
+        public async Task<ActionResult> OnPostAsync(CreateEmployeeDto form)
         {
             if (!ModelState.IsValid)
             {
+                Form = form;
+                BackUrl = form.BackUrl;
+                ViewData["Exception"] = "Form Invalid";
                 return Page();
             }
 
-            var result =  _employeeAppService.CreateAsync(employee);
-            if (result.IsCompleted)
+            var result = _employeeAppService.CreateAsync(form);
+            if (result.IsCompletedSuccessfully)
             {
                 return Redirect("Index");
             }
             else
             {
+                Form = form;
+                BackUrl = form.BackUrl;
+                ViewData["Exception"] = result.Exception.ToString();
                 return Page();
             }
         }
