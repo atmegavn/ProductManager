@@ -1,4 +1,5 @@
-﻿using HD.ProfileManager.Samples;
+﻿using HD.ProfileManager.Organizations;
+using HD.ProfileManager.Samples;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,11 @@ namespace HD.ProfileManager.Employees
     public class EmployeeAppService : ProfileManagerAppService, IEmployeeAppService
     {
         private readonly IRepository<Employee, Guid> _employeeRepository;
-        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository) { 
+        private readonly IRepository<Organization, Guid> _organizationRepository;
+
+        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository, IRepository<Organization, Guid> organizationRepository) { 
             _employeeRepository = employeeRepository;
+            _organizationRepository = organizationRepository;   
         }
 
         public async Task<EmployeeDto> CreateAsync(CreateEmployeeDto input)
@@ -25,10 +29,29 @@ namespace HD.ProfileManager.Employees
             employee.Code = input.Code;
             employee.Name = input.Name;
             employee.DateOfOnboard = input.DateOfOnboard;
+            employee.OrganzinationId = input.OrganizationId;
 
             await _employeeRepository.InsertAsync(employee);
          
            return ObjectMapper.Map<Employee, EmployeeDto>(employee);
+        }
+
+        async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
+        {
+            var queryable = await _employeeRepository.GetQueryableAsync();
+            queryable = queryable.OrderByDescending(e => e.CreationTime).Skip(input.SkipCount).Take(input.MaxResultCount);
+
+            var data = await AsyncExecuter.ToListAsync(queryable);
+            var count = await _employeeRepository.GetCountAsync();
+
+            var result = new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
+            return result;
+        }
+
+        public async Task<ListResultDto<OrganizationLookupDto>> GetOrganizationAsync(Guid? rootOrgId)
+        {
+            var orgs = await _organizationRepository.GetListAsync();
+            return new ListResultDto<OrganizationLookupDto>(ObjectMapper.Map<List<Organization>, List<OrganizationLookupDto>>(orgs));
         }
 
         public Task DeleteAsync(Guid id)
@@ -46,17 +69,6 @@ namespace HD.ProfileManager.Employees
             throw new NotImplementedException();
         }
 
-        async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
-        {
-            input.MaxResultCount = 2;
-            var queryable = await _employeeRepository.GetQueryableAsync();
-            queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(e => e.Name);
-
-            var data = await AsyncExecuter.ToListAsync(queryable);
-            var count = await _employeeRepository.GetCountAsync();
-
-            var result = new PagedResultDto<EmployeeDto>(count, ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
-            return result;
-        }
+      
     }
 }

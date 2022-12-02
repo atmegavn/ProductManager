@@ -8,22 +8,20 @@
 @model IndexModel
 @{
     var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
-    int pageSize = 2;
-    var totalPages = (Model.Result.TotalCount / pageSize) + 1;
     var totalCount = Model.Result.TotalCount;
 
     var currentPaging = Model.Params;
     long startPage = currentPaging.SkipCount + 1;
-    long endPage = currentPaging.SkipCount + pageSize;
+    long endPage = currentPaging.SkipCount + currentPaging.MaxResultCount;
     if (endPage > totalCount) endPage = totalCount; 
 
     PagedAndSortedResultRequestDto nextPaging = new PagedAndSortedResultRequestDto();
     PagedAndSortedResultRequestDto prevPaging = new PagedAndSortedResultRequestDto();
 
-    nextPaging.SkipCount = currentPaging.SkipCount + pageSize;
+    nextPaging.SkipCount = currentPaging.SkipCount + currentPaging.MaxResultCount;
     nextPaging.MaxResultCount = currentPaging.MaxResultCount;
 
-    prevPaging.SkipCount = currentPaging.SkipCount - pageSize;
+    prevPaging.SkipCount = currentPaging.SkipCount - currentPaging.MaxResultCount;
     prevPaging.MaxResultCount = currentPaging.MaxResultCount;
 
     var isDisablePrev = currentPaging.SkipCount == 0 ? "disabled" : "";
@@ -46,29 +44,27 @@
             </div>
             <h4 class="page-title">@Localizer["Employees"] </h4>
         </div>
-
     </div> <!-- end col -->
-
 </div>
 
 <div class="row">
     <div class="col-12">
         <a class="btn btn-sm btn-primary" href="@Url.Page("Create", new { backUrl = currentUrl })"><i class="mdi mdi-account-plus"></i> @Localizer["Create"]</a>
         <nav class="float-end">
-            <ul class="pagination mb-0">
+            <ul class="pagination pagination-sm mb-0">
                 <li class="page-item @isDisablePrev">
-                    <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true">Previous</a>
+                    <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true"><i class="mdi mdi-arrow-left-bold"></i></a>
                 </li>
                 <li class="page-item disabled" aria-current="page">
-                    <a class="page-link" href="#">
+                    <a class="page-link active" href="#">
                     @{
-                        var pageInfor = Model.Result.TotalCount > 0 ? $"Display {startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"]; 
+                        var pageInfor = Model.Result.TotalCount > 0 ? $"{startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"]; 
                     }
                         @pageInfor
                     </a>
                 </li>
                 <li class="page-item @isDisableNext">
-                    <a class="page-link" href="@Url.Page("Index", nextPaging)">Next</a>
+                    <a class="page-link" href="@Url.Page("Index", nextPaging)"><i class="mdi mdi-arrow-right-bold"></i></a>
                 </li>
             </ul>
         </nav>

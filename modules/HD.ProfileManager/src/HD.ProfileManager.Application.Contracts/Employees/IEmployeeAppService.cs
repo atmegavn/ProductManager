@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HD.ProfileManager.Organizations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace HD.ProfileManager.Employees
         Task UpdateAsync(Guid id, UpdateEmployeeDto input);
 
         Task DeleteAsync(Guid id);
+
+        Task<ListResultDto<OrganizationLookupDto>> GetOrganizationAsync(Guid? rootOrgId);
 
     }
 }

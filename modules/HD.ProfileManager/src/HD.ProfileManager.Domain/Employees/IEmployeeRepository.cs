@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace HD.ProfileManager.Employees
 {
-    public interface IEmployeeRepostory : IRepository<Employee, Guid>
+    public interface IEmployeeRepository : IRepository<Employee, Guid>
     {
     }
 }

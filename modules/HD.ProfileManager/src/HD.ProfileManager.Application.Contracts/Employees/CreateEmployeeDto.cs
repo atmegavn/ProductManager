@@ -23,6 +23,9 @@ namespace HD.ProfileManager.Employees
         [Required]
         [StringLength(EmployeeConsts.MobileMaxLength)]
         public string Mobile { get; set; }
+
+        [Required]
+        public Guid OrganizationId { get; set; }
         public string BackUrl { get; set; }
        
     }

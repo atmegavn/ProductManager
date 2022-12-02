@@ -11,20 +11,23 @@ namespace HD.ProfileManager.Organizations
 {
     public class OrganizationAppService : ProfileManagerAppService, IOrganizationAppService
     {
-        private readonly IRepository<Organization, Guid> _organizationRepository;
+        //private readonly IOrganizationRepository _organizationRepository;
+        private readonly IRepository<Organization,Guid> _organizationRepository;
 
-        public OrganizationAppService(IRepository<Organization, Guid> organizationRepository)
+        public OrganizationAppService(IRepository<Organization,Guid> organizationRepository)
         {
             _organizationRepository = organizationRepository;
         }
 
-        public async Task<OrganizationDto> CreateAsync(OrganizationDto input)
+        public async Task<OrganizationDto> CreateAsync(CreateOrganizationDto input)
         {
             //var org = ObjectMapper.Map<OrganizationDto, Employee>(input);
             var org = new Organization();
             org.Code = input.Code;
             org.Name = input.Name;
-            org.Location = input.Location;
+            org.Level = input.Level;
+            org.ParentId = input.ParentId;
+            
             await _organizationRepository.InsertAsync(org);
 
             return ObjectMapper.Map<Organization, OrganizationDto>(org);
@@ -42,8 +45,8 @@ namespace HD.ProfileManager.Organizations
 
         public async Task<PagedResultDto<OrganizationDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            var queryable = await _organizationRepository.GetQueryableAsync();
-            queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(e => e.Name);
+            var queryable = await _organizationRepository.WithDetailsAsync(o => o.Positions);
+            queryable = queryable.Skip(input.SkipCount).Take(input.MaxResultCount).OrderByDescending(e => e.CreationTime);
 
             var data = await AsyncExecuter.ToListAsync(queryable);
             var count = await _organizationRepository.GetCountAsync();

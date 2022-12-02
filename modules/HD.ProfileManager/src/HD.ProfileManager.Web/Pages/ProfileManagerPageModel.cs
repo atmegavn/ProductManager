@@ -1,4 +1,6 @@
 ﻿using HD.ProfileManager.Localization;
+using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 
 namespace HD.ProfileManager.Web.Pages;

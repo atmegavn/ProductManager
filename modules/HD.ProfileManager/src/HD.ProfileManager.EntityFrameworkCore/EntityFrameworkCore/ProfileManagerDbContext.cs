@@ -5,6 +5,7 @@ using HD.ProfileManager.Locations.Nationals;
 using HD.ProfileManager.Locations.Provincials;
 using HD.ProfileManager.Locations.Streets;
 using HD.ProfileManager.Locations.Villages;
+using HD.ProfileManager.Organizations;
 using HD.ProfileManager.Profiles;
 using HD.ProfileManager.Profiles.BankAccounts;
 using HD.ProfileManager.Profiles.Emails;
@@ -28,6 +29,7 @@ public class ProfileManagerDbContext : AbpDbContext<ProfileManagerDbContext>, IP
 
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Organization> Organization { get; set; }
     public DbSet<BankAccount> BankAccount { get; set; }
     public DbSet<Email> Email { get; set; }
     public DbSet<IDCard> IDCard { get; set; }

@@ -1,17 +1,16 @@
 ﻿@page
 @using HD.ProfileManager.Localization
 @using Microsoft.Extensions.Localization
+@using HD.ProfileManager.Organizations
+
 @inject IStringLocalizer<ProfileManagerResource> Localizer
 
-@model HD.ProfileManager.Web.Pages.Employees.CreateModel
-
-
+@model HD.ProfileManager.Web.Pages.Organizations.CreateModel
 @{
-    ViewBag.Title = @Localizer["Create new employee"].ToString();
+    ViewBag.Title = @Localizer["Create Organization"].ToString();
 }
 
 
-<div class="container-lg">
     <form id="create-story-form" class="needs-validation" asp-action="@ViewContext.RouteData.Values["action"]" method="post" role="form" novalidate>
         <div class="row">
             <div class="col-12">
@@ -22,7 +21,7 @@
                             <li class="breadcrumb-item active">@Localizer["Create"]</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">@Localizer["Create new employee"]</h4>
+                    <h4 class="page-title">@Localizer["Create"] @Localizer[Model.Form.Level.ToString()].Value</h4>
                 </div>
             </div>
         </div>
@@ -65,29 +64,14 @@
                         <span asp-validation-for="Form.Name"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Form.OrganizationId" class="form-label">@Localizer["Organization"]</label>
-                        <select asp-for="Form.OrganizationId" asp-items="Model.Organizations" class="form-control"></select>
-                        <span asp-validation-for="Form.OrganizationId"></span>
+                        <label asp-for="Form.Name" class="form-label">@Localizer["Location"]</label>
+                        <input type="text" asp-for="Form.Location" class="form-control" required>
+                        <span asp-validation-for="Form.Location"></span>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Form.DateOfOnboard" class="form-label">@Localizer["Date Of Onboard"]</label>
-                        <input type="date" asp-for="Form.DateOfOnboard" class="form-control" required>
-                        <span asp-validation-for="Form.DateOfOnboard"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Form.Mobile" class="form-label">Mobile</label>
-                        <input type="text" asp-for="Form.Mobile" class="form-control" required>
-                        <span asp-validation-for="Form.Mobile"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Form.Email" class="form-label">Email</label>
-                        <input type="email" asp-for="Form.Email" class="form-control" required>
-                        <span asp-validation-for="Form.Email"></span>
-                    </div>
+                    <input type="text" asp-for="Form.ParentId">
+                    <input type="text" asp-for="Form.Level">
                     <input asp-for="Form.BackUrl" class="gu-hide" />
                 </div>
             </div>
         </div>
     </form>
-</div>

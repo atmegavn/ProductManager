@@ -1,4 +1,119 @@
 ﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.Application.Dtos;
+@using HD.ProfileManager.Organizations
+
+@inject IStringLocalizer<ProfileManagerResource> Localizer
 @model HD.ProfileManager.Web.Pages.Organizations.IndexModel
 @{
+    var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    var totalCount = Model.Result.TotalCount;
+
+    var currentPaging = Model.Params;
+    long startPage = currentPaging.SkipCount + 1;
+    long endPage = currentPaging.SkipCount + currentPaging.MaxResultCount;
+    if (endPage > totalCount) endPage = totalCount;
+
+    PagedAndSortedResultRequestDto nextPaging = new PagedAndSortedResultRequestDto();
+    PagedAndSortedResultRequestDto prevPaging = new PagedAndSortedResultRequestDto();
+
+    nextPaging.SkipCount = currentPaging.SkipCount + currentPaging.MaxResultCount;
+    nextPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    prevPaging.SkipCount = currentPaging.SkipCount - currentPaging.MaxResultCount;
+    prevPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    var isDisablePrev = currentPaging.SkipCount == 0 ? "disabled" : "";
+    var isDisableNext = endPage >= totalCount ? "disabled" : "";
 }
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <div class="app-search">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." />
+                            <span class="mdi mdi-magnify search-icon"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h4 class="page-title">@Localizer["Organizations"] </h4>
+        </div>
+    </div> <!-- end col -->
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownOrgLevel" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="mdi mdi-domain-plus"></i> @Localizer["Create"]
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownOrgLevel">
+            @{
+                foreach (var level in Enum.GetValues(typeof(OrganizationLevel)))
+                {
+                    <a class="dropdown-item" href="@Url.Page("Create", new { backUrl = currentUrl, level })">@level.ToString()</a>
+                }
+            }
+        </div>
+
+        <nav class="float-end">
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item @isDisablePrev">
+                    <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true"><i class="mdi mdi-arrow-left-bold"></i></a>
+                </li>
+                <li class="page-item disabled" aria-current="page">
+                    <a class="page-link active">
+                        @{
+                            var pageInfor = Model.Result.TotalCount > 0 ? $"{startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"];
+                        }
+                        @pageInfor
+                    </a>
+                </li>
+                <li class="page-item @isDisableNext">
+                    <a class="page-link" href="@Url.Page("Index", nextPaging)"><i class="mdi mdi-arrow-right-bold"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-12">
+        <table class="table table-sm table-centered mb-0">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var org in Model.Result.Items)
+                {
+                    <tr>
+                        <td>@org.Code</td>
+                        <td>@org.Name</td>
+                        <td>@org.Location</td>
+                        <td>@org.Level</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- End row -->

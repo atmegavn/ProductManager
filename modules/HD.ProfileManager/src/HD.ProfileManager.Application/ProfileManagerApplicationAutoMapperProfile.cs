@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HD.ProfileManager.Employees;
 using HD.ProfileManager.Organizations;
-
+using System.Collections.Generic;
 namespace HD.ProfileManager;
 
 public class ProfileManagerApplicationAutoMapperProfile : Profile
@@ -10,5 +10,6 @@ public class ProfileManagerApplicationAutoMapperProfile : Profile
     {
         CreateMap<Employee, EmployeeDto>();
         CreateMap<Organization, OrganizationDto>();
+        CreateMap<Organization, OrganizationLookupDto>();
     }
 }

@@ -80,7 +80,6 @@ public static class ProfileManagerDbContextModelCreatingExtensions
 
             b.ConfigureByConvention();
         });
-       
 
         builder.Entity<Organization>(b =>
         {
