@@ -13,7 +13,7 @@ namespace HD.ProfileManager.Organizations
         Task<OrganizationDto> GetAsync(Guid id);
         Task<PagedResultDto<OrganizationDto>> GetListAsync(PagedAndSortedResultRequestDto input);
         Task<OrganizationDto> CreateAsync(CreateOrganizationDto input);
-
+        Task<List<OrganizationDto>> GetListSubOrganizationAsync(Guid id);
         Task UpdateAsync(Guid id, OrganizationDto input);
 
         Task DeleteAsync(Guid id);

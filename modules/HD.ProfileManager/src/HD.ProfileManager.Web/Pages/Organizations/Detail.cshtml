@@ -1,0 +1,154 @@
+﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@using HD.ProfileManager.Organizations
+
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
+@model HD.ProfileManager.Web.Pages.Organizations.DetailModel
+
+@{
+    var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    ViewBag.Title = @Localizer["Create Organization"].ToString();
+    var parentId = Model.Form.Id;
+}
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Page("Index")">@Localizer["Organizations"] </a></li>
+                        <li class="breadcrumb-item active">@Model.Form.Name</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">@Model.Form.Level @Model.Form.Name.ToString()</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-sm btn-primary" href="@Url.Page("Edit", new { backUrl = currentUrl, id=Model.Form.Id })"><i class="mdi mdi-store-edit"></i> @Localizer["Edit"]</a>
+
+            <a href="@Html.Raw(Model.BackUrl)" class="btn btn-sm btn-secondary">
+                <span class="mdi mdi-keyboard-return"></span> @Localizer["Back"]
+            </a>
+            <a class="btn btn-sm btn-danger float-end" href="@Url.Page("Delete", new { backUrl = currentUrl, id=Model.Form.Id })"><i class="mdi mdi-delete"></i> @Localizer["Delete"]</a>
+        </div>
+    </div>
+    <hr />
+    @{
+        if (ViewData["Exception"] != null)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                        <i class="ri-close-circle-line me-2"></i> @ViewData["Exception"]
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Information</h4>
+                    <p class="text-muted font-13">
+                        @Model.Form.Description
+                    </p>
+                    <hr />
+                    <div class="text-start">
+                        <p class="text-muted"><strong>Giám đốc :</strong> <span class="ms-2">Michael A. Franklin</span></p>
+
+                        <p class="text-muted"><strong>Phone :</strong><span class="ms-2">(+12) 123 1234 567</span></p>
+
+                        <p class="text-muted"><strong>Email :</strong> <span class="ms-2">coderthemes@gmail.com</span></p>
+
+                        <p class="text-muted"><strong>Location :</strong> <span class="ms-2">USA</span></p>
+                        <p class="text-muted mb-0" id="tooltip-container">
+                            <strong>Elsewhere :</strong>
+                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Facebook"><i class="mdi mdi-facebook"></i></a>
+                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Twitter"><i class="mdi mdi-twitter"></i></a>
+                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Skype"><i class="mdi mdi-skype"></i></a>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Personal-Information -->
+        </div> <!-- end col-->
+
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">
+                        @Localizer["Sub Organizations"]
+                        <button class="btn btn-sm btn-outline-primary float-end"><i class="mdi mdi-plus"></i></button>
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Name</th>
+                                    <th>Number Employees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.Organizations.Count > 0)
+                                    {
+                                        foreach (var orgDto in Model.Organizations.OrderBy(o => o.Level))
+                                        {
+                                            <tr>
+                                                <td>@orgDto.Level</td>
+                                                <td>
+                                                    <a href="@Url.Page("Detail", new { id = orgDto.Id, backUrl = currentUrl })">@orgDto.Name</a>
+                                                </td>
+                                                <td>@orgDto.Positions.Count</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td><i class="text-warning">@Localizer["There is no sub organization here"]</i></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div> <!-- end table responsive-->
+                </div> <!-- end col-->
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title"> @Localizer["Job Position"]
+                        <button class="btn btn-sm btn-outline-primary float-end"><i class="mdi mdi-plus"></i></button>
+                    </h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>@Localizer["Positions"]</th>
+                                    <th>@Localizer["Employee"]</th>
+                                    <th>@Localizer["Date"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div> <!-- end table responsive-->
+                </div> <!-- end col-->
+            </div>
+        </div>
+        <!-- end col -->
+
+    </div>

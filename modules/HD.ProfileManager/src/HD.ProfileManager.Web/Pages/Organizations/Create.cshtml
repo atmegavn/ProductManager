@@ -10,8 +10,7 @@
     ViewBag.Title = @Localizer["Create Organization"].ToString();
 }
 
-
-    <form id="create-story-form" class="needs-validation" asp-action="@ViewContext.RouteData.Values["action"]" method="post" role="form" novalidate>
+<form id="create-story-form" class="needs-validation" asp-action="@ViewContext.RouteData.Values["action"]" method="post" role="form" novalidate>
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -64,13 +63,27 @@
                         <span asp-validation-for="Form.Name"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Form.Name" class="form-label">@Localizer["Location"]</label>
-                        <input type="text" asp-for="Form.Location" class="form-control" required>
+                        <label asp-for="Form.Description" class="form-label">@Localizer["Description"]</label>
+                        <textarea asp-for="Form.Description" class="form-control"></textarea>
+                        <span asp-validation-for="Form.Description"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Form.Location" class="form-label">@Localizer["Location"]</label>
+                        <input type="text" asp-for="Form.Location" class="form-control">
                         <span asp-validation-for="Form.Location"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Form.Phone" class="form-label">@Localizer["Phone"]</label>
+                        <input type="text" asp-for="Form.Phone" class="form-control">
+                        <span asp-validation-for="Form.Phone"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Form.Email" class="form-label">@Localizer["Email"]</label>
+                        <input type="text" asp-for="Form.Email" class="form-control">
+                        <span asp-validation-for="Form.Email"></span>
                     </div>
                     <input type="text" asp-for="Form.ParentId">
                     <input type="text" asp-for="Form.Level">
-                    <input asp-for="Form.BackUrl" class="gu-hide" />
                 </div>
             </div>
         </div>

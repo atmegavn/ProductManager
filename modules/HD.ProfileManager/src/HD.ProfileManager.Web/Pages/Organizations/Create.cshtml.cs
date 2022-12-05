@@ -16,12 +16,12 @@ namespace HD.ProfileManager.Web.Pages.Organizations
         {
             _organizationAppService = organizationAppService;
         }
-        public async Task OnGetAsync(string backUrl, OrganizationLevel level)
+        public async Task OnGetAsync(string backUrl, OrganizationLevel level, Guid? parentId)
         {
             BackUrl = string.IsNullOrEmpty(backUrl) ? "Index" : backUrl;
             Form = new CreateOrganizationDto();
             Form.Level = level;
-            Form.BackUrl = backUrl;
+            Form.ParentId = parentId;   
         }
 
         public async Task<ActionResult> OnPostAsync(CreateOrganizationDto form)
@@ -29,7 +29,6 @@ namespace HD.ProfileManager.Web.Pages.Organizations
             if (!ModelState.IsValid)
             {
                 Form = form;
-                BackUrl = form.BackUrl;
                 ViewData["Exception"] = "Form Invalid";
                 return Page();
             }
@@ -37,12 +36,16 @@ namespace HD.ProfileManager.Web.Pages.Organizations
             var result = _organizationAppService.CreateAsync(form);
             if (result.IsCompletedSuccessfully)
             {
-                return Redirect("Index");
+                if (form.ParentId.HasValue)
+                {
+                    return RedirectToPage("Detail", new {id=form.ParentId });
+                }
+                
+                return RedirectToPage("Detail", new { id = result.Id});
             }
             else
             {
                 Form = form;
-                BackUrl = form.BackUrl;
                 ViewData["Exception"] = result.Exception.ToString();
                 return Page();
             }

@@ -24,7 +24,6 @@ namespace HD.ProfileManager.Employees
 
         public async Task<EmployeeDto> CreateAsync(CreateEmployeeDto input)
         {
-            //var employee = ObjectMapper.Map<CreateEmployeeDto, Employee>(input);
             var employee = new Employee();
             employee.Code = input.Code;
             employee.Name = input.Name;

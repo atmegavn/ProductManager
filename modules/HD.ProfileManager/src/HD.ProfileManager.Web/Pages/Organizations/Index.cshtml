@@ -62,7 +62,7 @@
         </div>
 
         <nav class="float-end">
-            <ul class="pagination pagination-sm mb-0">
+            <ul class="pagination mb-0">
                 <li class="page-item @isDisablePrev">
                     <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true"><i class="mdi mdi-arrow-left-bold"></i></a>
                 </li>
@@ -100,6 +100,7 @@
                     <th>Name</th>
                     <th>Location</th>
                     <th>Level</th>
+                    <th style="width: 100px"></th>
                 </tr>
             </thead>
             <tbody>
@@ -107,9 +108,15 @@
                 {
                     <tr>
                         <td>@org.Code</td>
-                        <td>@org.Name</td>
+                        <td>
+                            <a href="@Url.Page("Detail", new {org.Id, backUrl=currentUrl })">@org.Name</a>
+                        </td>
                         <td>@org.Location</td>
                         <td>@org.Level</td>
+                        <td class="table-action">
+                            <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                            <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </td>
                     </tr>
                 }
             </tbody>

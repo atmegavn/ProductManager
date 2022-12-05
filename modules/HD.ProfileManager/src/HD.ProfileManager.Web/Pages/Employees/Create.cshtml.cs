@@ -43,18 +43,8 @@ namespace HD.ProfileManager.Web.Pages.Employees
                 return Page();
             }
 
-            var result = _employeeAppService.CreateAsync(form);
-            if (result.IsCompletedSuccessfully)
-            {
-                return Redirect("Index");
-            }
-            else
-            {
-                Form = form;
-                BackUrl = form.BackUrl;
-                ViewData["Exception"] = result.Exception.ToString();
-                return Page();
-            }
+            await _employeeAppService.CreateAsync(form);
+            return Redirect("Index");
         }
 
     }
