@@ -1,9 +1,9 @@
-﻿using HD.ProfileManager.Employees;
+﻿using HD.ProfileManager.JobPositions;
+using HD.ProfileManager.OrganizationPositions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
@@ -14,10 +14,17 @@ namespace HD.ProfileManager.Organizations
     {
         //private readonly IOrganizationRepository _organizationRepository;
         private readonly IRepository<Organization,Guid> _organizationRepository;
+        private readonly IRepository<JobPosition,Guid> _jobPositionRepository;
+        private readonly IRepository<OrganizationPosition,Guid> _organizationPositionRepository;
 
-        public OrganizationAppService(IRepository<Organization,Guid> organizationRepository)
+        public OrganizationAppService(
+            IRepository<Organization,Guid> organizationRepository, 
+            IRepository<JobPosition, Guid> jobPositionRepository, 
+            IRepository<OrganizationPosition, Guid> organizationPositionRepository)
         {
             _organizationRepository = organizationRepository;
+            _jobPositionRepository = jobPositionRepository;
+            _organizationPositionRepository = organizationPositionRepository;   
         }
 
         public async Task<OrganizationDto> CreateAsync(CreateOrganizationDto input)
@@ -31,21 +38,24 @@ namespace HD.ProfileManager.Organizations
             org.Level = input.Level;
             org.ParentId = input.ParentId;
             org.Description = input.Description;
+            org.Location = input.Location;
+            org.CreatedDate = input.CreatedDate;
             await _organizationRepository.InsertAsync(org);
 
             return ObjectMapper.Map<Organization, OrganizationDto>(org);
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _organizationRepository.DeleteAsync(id);
         }
 
         public async Task<OrganizationDto> GetAsync(Guid id)
         {
-            var queryable = await _organizationRepository.WithDetailsAsync(o => o.Positions);
+            var queryable = await _organizationRepository.WithDetailsAsync(o => o.Positions.Where(p => p.Position.JobFamily.Name == "Management"));
             queryable = queryable.Where(o => o.Id == id);
             var data = await AsyncExecuter.FirstOrDefaultAsync(queryable);
+            var pos = data.Positions.Count;
             var result = ObjectMapper.Map<Organization, OrganizationDto>(data);
             return result;
         }
@@ -63,16 +73,57 @@ namespace HD.ProfileManager.Organizations
         public async Task<PagedResultDto<OrganizationDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
             var queryable = await _organizationRepository.WithDetailsAsync(o => o.Positions);
-            queryable = queryable.Where(o => !o.ParentId.HasValue).Skip(input.SkipCount).Take(input.MaxResultCount).OrderByDescending(e => e.Name);
+            var paged = queryable.Where(o => !o.ParentId.HasValue).Skip(input.SkipCount).Take(input.MaxResultCount).OrderByDescending(e => e.Name);
+            var data = await AsyncExecuter.ToListAsync(paged);
 
-            var data = await AsyncExecuter.ToListAsync(queryable);
-            var count = await _organizationRepository.GetCountAsync();
+            var count = await _organizationRepository.CountAsync(p => p.ParentId == null) ;
             return new PagedResultDto<OrganizationDto>(count, ObjectMapper.Map<List<Organization>, List<OrganizationDto>>(data));
         }
 
-        public Task UpdateAsync(Guid id, OrganizationDto input)
+        public async Task<OrganizationDto> UpdateAsync(Guid id, OrganizationDto input)
         {
-            throw new NotImplementedException();
+            var org = await _organizationRepository.GetAsync(id);
+            org.Code = input.Code;
+            org.Name = input.Name;
+            org.Phone = input.Phone;
+            org.Email = input.Email;
+            org.Description = input.Description;
+            org.Location = input.Location;
+            org.CreatedDate = input.CreatedDate;
+
+            var updatedOrg = await _organizationRepository.UpdateAsync(org);
+
+            return ObjectMapper.Map<Organization, OrganizationDto>(updatedOrg);
+        }
+
+        public async Task<ListResultDto<PositionLookupDto>> GetJobPositionsAsync()
+        {
+            var positions = await _jobPositionRepository.GetListAsync();
+            return new ListResultDto<PositionLookupDto>(ObjectMapper.Map<List<JobPosition>, List<PositionLookupDto>>(positions));
+        }
+
+        public async Task<OrganizationPositionDto> AddPositionAsync(AddPositionDto input)
+        {
+            //var org = await _organizationRepository.GetAsync(input.OrganizationId);
+            var newPosition = new OrganizationPosition()
+            {
+                Name = input.Name,
+                JobPositionId = input.JobPositionId,
+                OrganizationId = input.OrganizationId
+            };
+            var insert = await _organizationPositionRepository.InsertAsync(newPosition);
+
+            return ObjectMapper.Map<OrganizationPosition, OrganizationPositionDto>(insert);
+        }
+
+        public async Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id)
+        {
+            var queryable = await _organizationPositionRepository.WithDetailsAsync(op => op.Position);
+            queryable = queryable.Where(op => op.Position.JobFamily.Name != "Management").Where(op => op.OrganizationId == id).OrderBy(op => op.Name);
+            var data = await AsyncExecuter.ToListAsync(queryable);
+
+            var result = ObjectMapper.Map<List<OrganizationPosition>, List<OrganizationPositionDto>>(data);
+            return result;
         }
     }
 }

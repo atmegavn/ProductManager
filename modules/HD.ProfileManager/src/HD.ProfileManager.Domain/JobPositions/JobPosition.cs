@@ -10,6 +10,11 @@ namespace HD.ProfileManager.JobPositions
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Requirement { get; set; }
+        public Guid JobFamilyId { get; set; }
+        public JobFamily JobFamily { get; set; }
+        public int PositionClass { get; set; }
+        public JobLevel Level { get; set; } 
         public bool? Disabled { get; set; }
 
     }

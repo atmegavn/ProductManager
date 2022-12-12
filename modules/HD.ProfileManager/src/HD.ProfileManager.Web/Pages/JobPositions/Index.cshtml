@@ -1,4 +1,105 @@
 ﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.Application.Dtos;
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
 @model HD.ProfileManager.Web.Pages.JobPositions.IndexModel
 @{
+    var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    var totalCount = Model.Result.TotalCount;
+
+    var currentPaging = Model.Params;
+    long startPage = currentPaging.SkipCount + 1;
+    long endPage = currentPaging.SkipCount + currentPaging.MaxResultCount;
+    if (endPage > totalCount) endPage = totalCount;
+
+    PagedAndSortedResultRequestDto nextPaging = new PagedAndSortedResultRequestDto();
+    PagedAndSortedResultRequestDto prevPaging = new PagedAndSortedResultRequestDto();
+
+    nextPaging.SkipCount = currentPaging.SkipCount + currentPaging.MaxResultCount;
+    nextPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    prevPaging.SkipCount = currentPaging.SkipCount - currentPaging.MaxResultCount;
+    prevPaging.MaxResultCount = currentPaging.MaxResultCount;
+
+    var isDisablePrev = currentPaging.SkipCount == 0 ? "disabled" : "";
+    var isDisableNext = endPage >= totalCount ? "disabled" : "";
 }
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <div class="app-search">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." />
+                            <span class="mdi mdi-magnify search-icon"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h4 class="page-title">@Localizer["Job Positions"] </h4>
+        </div>
+    </div> <!-- end col -->
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-sm btn-primary" href="@Url.Page("Create")"><i class="mdi mdi-account-multiple-plus"></i> @Localizer["Position"]</a>
+        <nav class="float-end">
+            <ul class="pagination mb-0">
+                <li class="page-item @isDisablePrev">
+                    <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true"><i class="mdi mdi-arrow-left-bold"></i></a>
+                </li>
+                <li class="page-item disabled" aria-current="page">
+                    <a class="page-link active">
+                        @{
+                            var pageInfor = Model.Result.TotalCount > 0 ? $"{startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"];
+                        }
+                        @pageInfor
+                    </a>
+                </li>
+                <li class="page-item @isDisableNext">
+                    <a class="page-link" href="@Url.Page("Index", nextPaging)"><i class="mdi mdi-arrow-right-bold"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-centered mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Function</th>
+                    <th>Level</th>
+                    <th style="width: 100px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var position in Model.Result.Items)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Page("Detail", new {position.Id, backUrl=currentUrl })">@position.Name</a>
+                        </td>
+                        <td>@position.JobFamily.Name</td>
+                        <td>@position.Level</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- End row -->

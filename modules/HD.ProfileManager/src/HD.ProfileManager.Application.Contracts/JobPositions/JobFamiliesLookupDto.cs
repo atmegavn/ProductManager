@@ -4,12 +4,9 @@ using System.Text;
 
 namespace HD.ProfileManager.JobPositions
 {
-    public enum JobLevel
+    public class JobFamiliesLookupDto
     {
-        Fresher,
-        Junior,
-        Senior,
-        Expert,
-        SeniorExpert
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

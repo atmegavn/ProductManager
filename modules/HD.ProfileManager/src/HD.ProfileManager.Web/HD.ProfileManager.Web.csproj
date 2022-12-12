@@ -39,9 +39,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Organizations\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Organizations\Delete.cshtml" />
     <None Include="wwwroot\assets\css\app-saas-rtl.min.css.map" />
     <None Include="wwwroot\assets\css\app-saas.min.css.map" />
     <None Include="wwwroot\assets\css\icons.min.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Organizations\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Organizations\Delete.cshtml" />
   </ItemGroup>
 
 </Project>

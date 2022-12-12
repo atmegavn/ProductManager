@@ -1,4 +1,5 @@
 ﻿using HD.ProfileManager.Employees;
+using HD.ProfileManager.OrganizationPositions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,8 +15,10 @@ namespace HD.ProfileManager.Organizations
         Task<PagedResultDto<OrganizationDto>> GetListAsync(PagedAndSortedResultRequestDto input);
         Task<OrganizationDto> CreateAsync(CreateOrganizationDto input);
         Task<List<OrganizationDto>> GetListSubOrganizationAsync(Guid id);
-        Task UpdateAsync(Guid id, OrganizationDto input);
-
+        Task<ListResultDto<PositionLookupDto>> GetJobPositionsAsync();
+        Task<OrganizationDto> UpdateAsync(Guid id, OrganizationDto input);
+        Task<OrganizationPositionDto> AddPositionAsync(AddPositionDto input);
+        Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id);
         Task DeleteAsync(Guid id);
     }
 }

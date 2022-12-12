@@ -1,0 +1,56 @@
+﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@using HD.ProfileManager.Organizations
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
+@model HD.ProfileManager.Web.Pages.Organizations.RemoveModel
+
+@{
+    Layout = null;
+}
+
+
+<div class="modal-body p-4">
+
+    <form id="confirm-form" asp-action="@ViewContext.RouteData.Values["action"]" method="post" role="form">
+        <div class="text-center">
+            <i class="ri-close-circle-line h1"></i>
+            <h4 class="mt-2">@Localizer["Confirm"]</h4>
+            <p class="mt-3">@Localizer["You are removing: "] @Model.Form.Name</p>
+            <button type="submit" class="btn btn-light my-2" data-bs-dismiss="modal">@Localizer["Continue"]</button>
+            <input asp-for="Form.Id" style="display: none" />
+            <input asp-for="Form.Name" style="display: none" />
+            <input asp-for="Form.BackUrl" style="display: none" />
+        </div>
+    </form>
+   
+</div>
+
+
+
+
+<script>
+    $("#danger-alert-modal-trigger").click();
+    $("#confirm-form").unbind();
+
+    $('#confirm-form').submit(function () {
+        $.ajax({
+            data: $(this).serialize(),
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            success: function (response) {
+                console.log(typeof response);
+                if (typeof response === "object") {
+                    console.log(response);
+                    $("#danger-alert-modal").modal('toggle');
+                    //document.location.reload();
+                    document.location.href = '@Html.Raw(Model.Form.BackUrl)';
+                } else {
+                    $("#content-modal-danger").html(response);
+                }
+            }
+        });
+        return false;
+    });
+</script>

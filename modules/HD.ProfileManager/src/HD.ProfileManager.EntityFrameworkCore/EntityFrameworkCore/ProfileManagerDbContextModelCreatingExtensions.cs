@@ -92,8 +92,7 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             b.Property(p => p.Location).IsRequired(false);
             b.Property(p => p.Disabled).IsRequired(false);
 
-            b.HasMany(p => p.Positions).WithOne().HasForeignKey(r => r.JobPositionId).OnDelete(DeleteBehavior.NoAction).IsRequired();
-
+            b.HasMany(p => p.Positions).WithOne().HasForeignKey(r => r.OrganizationId).OnDelete(DeleteBehavior.NoAction).IsRequired();
             b.ConfigureByConvention();
         });
 
@@ -126,6 +125,18 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             b.ConfigureByConvention();
         });
 
+        builder.Entity<JobFamily>(b =>
+        {
+            //Configure table & schema name
+            b.ToTable(ProfileManagerDbProperties.DbTablePrefix + "JobFamily", ProfileManagerDbProperties.DbSchema);
+            b.Property(p => p.Id).HasDefaultValueSql("newid()");
+            b.Property(p => p.Name).IsRequired();
+            b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.ParentId).IsRequired(false);
+            b.HasOne(p => p.Parent).WithMany().HasForeignKey(p => p.ParentId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.ConfigureByConvention();
+        });
+
         builder.Entity<JobPosition>(b =>
         {
             //Configure table & schema name
@@ -133,7 +144,12 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             b.Property(p => p.Id).HasDefaultValueSql("newid()");
             b.Property(p => p.Name).IsRequired();
             b.Property(p => p.Description).IsRequired(false);
+            b.Property(p => p.Requirement).IsRequired(false);
+            b.Property(p => p.Level).IsRequired();
+            b.Property(p => p.JobFamilyId).IsRequired();
             b.Property(p => p.Disabled).IsRequired(false);
+
+            //b.HasOne(p => p.JobFamily).WithMany().HasForeignKey(p => p.JobFamilyId).OnDelete(DeleteBehavior.NoAction).IsRequired();
 
             b.ConfigureByConvention();
         });

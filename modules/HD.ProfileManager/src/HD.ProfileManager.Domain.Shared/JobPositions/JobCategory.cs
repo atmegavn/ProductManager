@@ -4,12 +4,12 @@ using System.Text;
 
 namespace HD.ProfileManager.JobPositions
 {
-    public enum JobLevel
+    public enum JobCategory
     {
-        Fresher,
-        Junior,
-        Senior,
-        Expert,
-        SeniorExpert
+        Para,
+        Profresion,
+        Leader,
+        Manager,
+        Excutive
     }
 }

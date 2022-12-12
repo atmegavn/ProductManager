@@ -1,7 +1,6 @@
 ﻿@page
 @using HD.ProfileManager.Localization
 @using Microsoft.Extensions.Localization
-@using HD.ProfileManager.Organizations
 
 @inject IStringLocalizer<ProfileManagerResource> Localizer
 
@@ -16,7 +15,7 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="@Url.Page("Index")">@Localizer["Employees"] </a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Page("Index")">@Localizer["Organization"] </a></li>
                             <li class="breadcrumb-item active">@Localizer["Create"]</li>
                         </ol>
                     </div>
@@ -63,6 +62,11 @@
                         <span asp-validation-for="Form.Name"></span>
                     </div>
                     <div class="mb-3">
+                        <label asp-for="Form.CreatedDate" class="form-label">@Localizer["Create Date"]</label>
+                        <input type="date" asp-for="Form.CreatedDate" class="form-control" required>
+                        <span asp-validation-for="Form.CreatedDate"></span>
+                    </div>
+                    <div class="mb-3">
                         <label asp-for="Form.Description" class="form-label">@Localizer["Description"]</label>
                         <textarea asp-for="Form.Description" class="form-control"></textarea>
                         <span asp-validation-for="Form.Description"></span>
@@ -82,8 +86,8 @@
                         <input type="text" asp-for="Form.Email" class="form-control">
                         <span asp-validation-for="Form.Email"></span>
                     </div>
-                    <input type="text" asp-for="Form.ParentId">
-                    <input type="text" asp-for="Form.Level">
+                    <input type="text" asp-for="Form.ParentId" style="display: none">
+                    <input type="text" asp-for="Form.Level" style="display: none">
                 </div>
             </div>
         </div>

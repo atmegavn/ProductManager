@@ -33,20 +33,20 @@ namespace HD.ProfileManager.Web.Pages.Organizations
                 return Page();
             }
 
-            var result = _organizationAppService.CreateAsync(form);
-            if (result.IsCompletedSuccessfully)
+            var insert = _organizationAppService.CreateAsync(form);
+            if (insert.IsCompletedSuccessfully)
             {
                 if (form.ParentId.HasValue)
                 {
                     return RedirectToPage("Detail", new {id=form.ParentId });
                 }
                 
-                return RedirectToPage("Detail", new { id = result.Id});
+                return RedirectToPage("Detail", new { id = insert.Result.Id});
             }
             else
             {
                 Form = form;
-                ViewData["Exception"] = result.Exception.ToString();
+                ViewData["Exception"] = insert.Exception.ToString();
                 return Page();
             }
         }

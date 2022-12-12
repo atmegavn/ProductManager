@@ -9,146 +9,193 @@
 
 @{
     var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    var backUrl = Model.BackUrl;
     ViewBag.Title = @Localizer["Create Organization"].ToString();
     var parentId = Model.Form.Id;
 }
 
 
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="@Url.Page("Index")">@Localizer["Organizations"] </a></li>
-                        <li class="breadcrumb-item active">@Model.Form.Name</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">@Model.Form.Level @Model.Form.Name.ToString()</h4>
-            </div>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">@Model.Form.Level @Model.Form.Name.ToString()</h4>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-12">
-            <a class="btn btn-sm btn-primary" href="@Url.Page("Edit", new { backUrl = currentUrl, id=Model.Form.Id })"><i class="mdi mdi-store-edit"></i> @Localizer["Edit"]</a>
-
-            <a href="@Html.Raw(Model.BackUrl)" class="btn btn-sm btn-secondary">
-                <span class="mdi mdi-keyboard-return"></span> @Localizer["Back"]
-            </a>
-            <a class="btn btn-sm btn-danger float-end" href="@Url.Page("Delete", new { backUrl = currentUrl, id=Model.Form.Id })"><i class="mdi mdi-delete"></i> @Localizer["Delete"]</a>
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-sm btn-primary" href="@Url.Page("AddPosition", new {id=Model.Form.Id, backUrl = currentUrl })"><i class="mdi mdi-account-multiple-plus"></i> @Localizer["Position"]</a>
+        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownOrgLevel" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="mdi mdi-domain-plus"></i> @Localizer["Organization"]
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownOrgLevel">
+            @{
+                foreach (var level in Enum.GetValues(typeof(OrganizationLevel)))
+                {
+                    if ((int)level > (int)Model.Form.Level)
+                    {
+                        <a class="dropdown-item" href="@Url.Page("Create", new { backUrl = currentUrl, parentId, level })">@level.ToString()</a>
+                    }
+                }
+            }
         </div>
+        <a class="btn btn-sm btn-secondary" href="@Url.Page("Edit", new { backUrl = currentUrl, id=Model.Form.Id })"><i class="mdi mdi-store-edit"></i> @Localizer["Edit"]</a>
+
+        <a href="@Html.Raw(Model.BackUrl)" class="btn btn-sm btn-secondary">
+            <span class="mdi mdi-keyboard-return"></span> @Localizer["Back"]
+        </a>
+        <a class="btn btn-sm btn-danger float-end" href="javascript:void(0);" onclick="openDangerModal(this)" url="@Url.Page("Remove", new { backUrl, id=Model.Form.Id })"><i class="mdi mdi-delete"></i> @Localizer["Delete"]</a>
     </div>
-    <hr />
-    @{
-        if (ViewData["Exception"] != null)
-        {
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-danger" role="alert">
-                        <i class="ri-close-circle-line me-2"></i> @ViewData["Exception"]
-                    </div>
+</div>
+<hr />
+@{
+    if (ViewData["Exception"] != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    <i class="ri-close-circle-line me-2"></i> @ViewData["Exception"]
                 </div>
             </div>
-        }
+        </div>
     }
-    <div class="row">
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Information</h4>
-                    <p class="text-muted font-13">
-                        @Model.Form.Description
-                    </p>
-                    <hr />
-                    <div class="text-start">
-                        <p class="text-muted"><strong>Giám đốc :</strong> <span class="ms-2">Michael A. Franklin</span></p>
+}
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">Information</h4>
+                <p class="text-muted font-13">
+                    @Model.Form.Description
+                </p>
 
-                        <p class="text-muted"><strong>Phone :</strong><span class="ms-2">(+12) 123 1234 567</span></p>
+                <hr>
 
-                        <p class="text-muted"><strong>Email :</strong> <span class="ms-2">coderthemes@gmail.com</span></p>
+                <div class="text-start">
+                    <p class="text-muted"><strong>Code :</strong> <span class="ms-2">@Model.Form.Code</span></p>
 
-                        <p class="text-muted"><strong>Location :</strong> <span class="ms-2">USA</span></p>
-                        <p class="text-muted mb-0" id="tooltip-container">
-                            <strong>Elsewhere :</strong>
-                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Facebook"><i class="mdi mdi-facebook"></i></a>
-                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Twitter"><i class="mdi mdi-twitter"></i></a>
-                            <a class="d-inline-block ms-2 text-muted" data-bs-container="#tooltip-container" data-bs-placement="top" data-bs-toggle="tooltip" href="" title="Skype"><i class="mdi mdi-skype"></i></a>
-                        </p>
+                    <p class="text-muted"><strong>Mobile :</strong><span class="ms-2">@Model.Form.Phone</span></p>
 
-                    </div>
+                    <p class="text-muted"><strong>Email :</strong> <span class="ms-2">@Model.Form.Email</span></p>
+
+                    <p class="text-muted"><strong>Location :</strong> <span class="ms-2">@Model.Form.Location</span></p>
                 </div>
-            </div>
-            <!-- Personal-Information -->
-        </div> <!-- end col-->
+                @{
+                    if (Model.Form.Positions.Count > 0)
+                    {
+                        <hr />
+                        <h4 class="header-title mt-0 mb-3">@Localizer["Managements"]</h4>
 
-        <div class="col-xl-8">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">
-                        @Localizer["Sub Organizations"]
-                        <button class="btn btn-sm btn-outline-primary float-end"><i class="mdi mdi-plus"></i></button>
-                    </h4>
-                    <div class="table-responsive">
-                        <table class="table table-hover table-centered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Level</th>
-                                    <th>Name</th>
-                                    <th>Number Employees</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    if (Model.Organizations.Count > 0)
-                                    {
-                                        foreach (var orgDto in Model.Organizations.OrderBy(o => o.Level))
+                        foreach (var pos in Model.Form.Positions)
+                        {
+                            if (pos.EmployeeId.HasValue)
+                            {
+                                <p class="text-muted"><strong>@pos.Name: </strong> <span class="ms-2">@pos.EmployeeId </span></p>
+                            }
+                            else
+                            {
+                                <p class="text-muted"><strong>@pos.Name: </strong> <i class="ms-2 float-end">@Localizer["not assigned"] </i></p>
+                            }
+                        }
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        @{
+            if (Model.Organizations.Count > 0)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">
+                            @Localizer["Sub Organizations"]
+                        </h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Name</th>
+                                        <th>Employees</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        if (Model.Organizations.Count > 0)
+                                        {
+                                            foreach (var orgDto in Model.Organizations.OrderBy(o => o.Level))
+                                            {
+                                                <tr>
+                                                    <td>@orgDto.Level</td>
+                                                    <td>
+                                                        <a href="@Url.Page("Detail", new { id = orgDto.Id, backUrl = currentUrl })">@orgDto.Name</a>
+                                                    </td>
+                                                    <td>@orgDto.Positions.Count</td>
+                                                    <td class="table-action">
+                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-account-multiple-plus"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
                                         {
                                             <tr>
-                                                <td>@orgDto.Level</td>
+                                                <td><i class="text-warning">@Localizer["There is no sub organization here"]</i></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td>
-                                                    <a href="@Url.Page("Detail", new { id = orgDto.Id, backUrl = currentUrl })">@orgDto.Name</a>
                                                 </td>
-                                                <td>@orgDto.Positions.Count</td>
                                             </tr>
                                         }
                                     }
-                                    else
-                                    {
-                                        <tr>
-                                            <td><i class="text-warning">@Localizer["There is no sub organization here"]</i></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    }
-                                }
 
-                            </tbody>
-                        </table>
-                    </div> <!-- end table responsive-->
-                </div> <!-- end col-->
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title"> @Localizer["Job Position"]
-                        <button class="btn btn-sm btn-outline-primary float-end"><i class="mdi mdi-plus"></i></button>
-                    </h4>
+                                </tbody>
+                            </table>
+                        </div> <!-- end table responsive-->
+                    </div> <!-- end col-->
+                </div>
+            }
+        }
 
-                    <div class="table-responsive">
-                        <table class="table table-hover table-centered mb-0">
-                            <thead>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">
+                    @Localizer["Positions"]
+                </h4>
+                <div class="table-responsive">
+                    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>@Localizer["Name"]</th>
+                                <th>@Localizer["Employee"]</th>
+                                <th>@Localizer["Level"]</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model.Positions)
+                            {
                                 <tr>
-                                    <th>@Localizer["Positions"]</th>
-                                    <th>@Localizer["Employee"]</th>
-                                    <th>@Localizer["Date"]</th>
+                                    <td>@p.Name</td>
+                                    <td>@{ var emp = p.EmployeeId.HasValue ? p.EmployeeId.ToString() : "not assigned";} <i>@emp</i></td>
+                                    <td>@p.Position.Level</td>
+                                    <td></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div> <!-- end table responsive-->
-                </div> <!-- end col-->
-            </div>
-        </div>
-        <!-- end col -->
+                            }
+                        </tbody>
+                    </table>
 
+
+                </div> <!-- end table responsive-->
+            </div> <!-- end col-->
+        </div>
     </div>
+</div>

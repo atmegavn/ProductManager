@@ -2,28 +2,30 @@ using HD.ProfileManager.Organizations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HD.ProfileManager.Web.Pages.Organizations
 {
-    public class EditModel : ProfileManagerPageModel
+    public class RemoveModel : ProfileManagerPageModel
     {
-        public OrganizationDto Form { get; set; }
-        public string BackUrl { get; set; }
+        public DeleteOrganizaionDto Form { get; set; }
+
         private readonly IOrganizationAppService _organizationAppService;
-        public EditModel(IOrganizationAppService organizationAppService)
+        public RemoveModel(IOrganizationAppService organizationAppService)
         {
             _organizationAppService = organizationAppService;
         }
+
         public async Task OnGetAsync(Guid id, string backUrl)
         {
-            Form = await _organizationAppService.GetAsync(id);
-
-            BackUrl = string.IsNullOrEmpty(backUrl) ? "Index" : backUrl;
+            Form = new DeleteOrganizaionDto();
+            var org = await _organizationAppService.GetAsync(id);
+            Form.Id = org.Id;
+            Form.Name = org.Name;
+            Form.BackUrl = backUrl;
         }
 
-        public async Task<ActionResult> OnPostAsync(OrganizationDto form)
+        public async Task<ActionResult> OnPostAsync(DeleteOrganizaionDto form)
         {
             if (!ModelState.IsValid)
             {
@@ -32,15 +34,15 @@ namespace HD.ProfileManager.Web.Pages.Organizations
                 return Page();
             }
 
-            var org = await _organizationAppService.UpdateAsync(form.Id, form);
-            if (org != null)
+            var result = _organizationAppService.DeleteAsync(form.Id);
+            if (result.IsCompletedSuccessfully)
             {
-                return RedirectToPage("Detail", new { id = org.Id });
+                return new JsonResult(new { Result = "OK", Message = "Approved OK" });
             }
             else
             {
                 Form = form;
-                //ViewData["Exception"] = update.Exception.ToString();
+                ViewData["Exception"] = result.Exception?.Message.ToString();
                 return Page();
             }
         }

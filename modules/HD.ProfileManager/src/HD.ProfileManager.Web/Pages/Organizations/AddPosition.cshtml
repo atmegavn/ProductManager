@@ -1,13 +1,14 @@
 ﻿@page
+
 @using HD.ProfileManager.Localization
 @using Microsoft.Extensions.Localization
 @using HD.ProfileManager.Organizations
 
 @inject IStringLocalizer<ProfileManagerResource> Localizer
 
-@model HD.ProfileManager.Web.Pages.Organizations.EditModel
+@model HD.ProfileManager.Web.Pages.Organizations.AddPositionModel
 @{
-    ViewBag.Title = @Localizer["Edit Organization"].ToString();
+    ViewBag.Title = @Localizer["Add Position"].ToString();
 }
 
 
@@ -21,7 +22,7 @@
                         <li class="breadcrumb-item active">@Localizer["Edit"]</li>
                     </ol>
                 </div>
-                <h4 class="page-title">@Localizer["Edit"] @Model.Form.Name</h4>
+                <h4 class="page-title">@Localizer["Add Position"] @Model.Form.Name</h4>
             </div>
         </div>
     </div>
@@ -32,7 +33,7 @@
                 <span class="mdi mdi-content-save"></span> @Localizer["Save"]
             </button>
 
-            <a href="@Html.Raw(Model.BackUrl)" class="btn btn-sm btn-secondary">
+            <a href="@Html.Raw(Model.Form.BackUrl)" class="btn btn-sm btn-secondary">
                 <span class="mdi mdi-keyboard-return"></span> @Localizer["Back"]
             </a>
         </div>
@@ -54,9 +55,9 @@
         <div class="col-12">
             <div class="form-group">
                 <div class="mb-3">
-                    <label asp-for="Form.Code" class="form-label">@Localizer["Code"]</label>
-                    <input type="text" asp-for="Form.Code" class="form-control" required>
-                    <span asp-validation-for="Form.Code"></span>
+                    <label asp-for="Form.JobPositionId" class="form-label">@Localizer["Job Position"]</label>
+                    <select asp-for="Form.JobPositionId" asp-items="Model.Positions" class="form-control"></select>
+                    <span asp-validation-for="Form.JobPositionId"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="Form.Name" class="form-label">@Localizer["Name"]</label>
@@ -64,32 +65,14 @@
                     <span asp-validation-for="Form.Name"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Form.CreatedDate" class="form-label">@Localizer["Created Date"]</label>
-                    <input type="date" asp-for="Form.CreatedDate" class="form-control">
-                    <span asp-validation-for="Form.CreatedDate"></span>
-                </div>
-                <div class="mb-3">
                     <label asp-for="Form.Description" class="form-label">@Localizer["Description"]</label>
                     <textarea asp-for="Form.Description" class="form-control"></textarea>
                     <span asp-validation-for="Form.Description"></span>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Form.Location" class="form-label">@Localizer["Location"]</label>
-                    <input type="text" asp-for="Form.Location" class="form-control">
-                    <span asp-validation-for="Form.Location"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Form.Phone" class="form-label">@Localizer["Phone"]</label>
-                    <input type="text" asp-for="Form.Phone" class="form-control">
-                    <span asp-validation-for="Form.Phone"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Form.Email" class="form-label">@Localizer["Email"]</label>
-                    <input type="text" asp-for="Form.Email" class="form-control">
-                    <span asp-validation-for="Form.Email"></span>
-                </div>
-                <input type="text" asp-for="Form.Id" class="gu-hide">
+                <input type="text" asp-for="Form.OrganizationId" class="gu-hide">
+                <input type="text" asp-for="Form.BackUrl" class="gu-hide">
             </div>
         </div>
     </div>
 </form>
+
