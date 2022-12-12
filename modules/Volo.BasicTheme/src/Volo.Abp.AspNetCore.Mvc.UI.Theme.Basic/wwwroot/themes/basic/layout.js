@@ -13,4 +13,17 @@ $(function () {
 
         return false;
     });
+
 });
+
+
+function openStandardModal(element) {
+    var url = $(element).attr("url");
+    $("#standard-modal-content").load(url);
+}
+
+function openDangerModal(element) {
+    var url = $(element).attr("url");
+    console.log(url);
+    $("#danger-alert-modal-content").load(url);
+}
