@@ -1,5 +1,6 @@
 ﻿using HD.ProfileManager.Employees;
 using HD.ProfileManager.JobPositions;
+using HD.ProfileManager.JobTitles;
 using HD.ProfileManager.Locations;
 using HD.ProfileManager.Locations.Districts;
 using HD.ProfileManager.Locations.Nationals;
@@ -33,6 +34,7 @@ public class ProfileManagerDbContext : AbpDbContext<ProfileManagerDbContext>, IP
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Organization> Organization { get; set; }
     public DbSet<JobPosition> JobPosition { get; set; }
+    public DbSet<JobTitle> JobTitle { get; set; }
     public DbSet<JobFamily> JobFamily { get; set; }
     public DbSet<OrganizationPosition> OrganizationPosition { get; set; }
     public DbSet<BankAccount> BankAccount { get; set; }

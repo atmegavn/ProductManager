@@ -22,10 +22,6 @@
                 <a href="@Html.Raw(Model.BackUrl)" class="btn btn-secondary btn-sm mb-2"><i class="mdi mdi-keyboard-backspace"> </i> @Localizer["Back"]</a>
 
                 <div class="text-start mt-3">
-                    <h4 class="font-13 text-uppercase">About Me :</h4>
-                    <p class="text-muted font-13 mb-3">
-                      
-                    </p>
                     <p class="text-muted mb-2 font-13">
                         <strong>Full Name :</strong> <span class="ms-2">
                             @Model.Employee.Name
@@ -34,7 +30,7 @@
 
                     <p class="text-muted mb-2 font-13">
                         <strong>Mobile :</strong><span class="ms-2">
-                           @Model.Employee.Mobile
+                            @Model.Employee.Mobile
                         </span>
                     </p>
 
@@ -143,6 +139,12 @@
                             <span class="d-none d-md-block">Đào tạo</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#tuyendung" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Tuyển dụng</span>
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <!-- tab ca nhan -->
@@ -238,6 +240,7 @@
                                 </div>
                                 <!-- end col -->
                             </div> <!-- end row -->
+
                             <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-card-account-details mr-1"></i> Địa chỉ hiện tại</h5>
                             <div class="row">
                                 <div class="col-md-6">
@@ -277,6 +280,49 @@
                                 </div>
                                 <!-- end col -->
                             </div> <!-- end row -->
+
+                            <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-card-account-details mr-1"></i> Nhân thân</h5>
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-nowrap mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên</th>
+                                            <th>Quan hệ</th>
+                                            <th>Số DT</th>
+                                            <th>Số CMT</th>
+                                            <th>Địa chỉ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Thị Lan</td>
+                                            <td>Vợ</td>
+                                            <td>0982223333</td>
+                                            <td>123445565</td>
+                                            <td>số 14/18 Võ Văn Dũng</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Văn Nam</td>
+                                            <td>Con</td>
+                                            <td>0982223333</td>
+                                            <td>123445565</td>
+                                            <td>số 14/18 Võ Văn Dũng</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Thị Hiền</td>
+                                            <td>Mẹ đẻ</td>
+                                            <td>0982223333</td>
+                                            <td>123445565</td>
+                                            <td>số 14/18 Võ Văn Dũng</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </form>
                     </div>
                     <!-- tab nhan su -->
@@ -301,7 +347,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Trưởng bộ phận</label>
-                                        <input type="text" class="form-control" id="firstname" placeholder="Nguyễn Trung Hiếu">
+                                        <input type="text" class="form-control" id="firstname" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -320,7 +366,7 @@
                                     <div class="form-group">
                                         <label for="userbio">Đơn vị</label>
                                         <select class="form-control">
-                                            <option> NDU6</option>
+                                            <option> HD Soft</option>
                                         </select>
                                     </div>
                                 </div> <!-- end col -->
@@ -328,7 +374,7 @@
                                     <div class="form-group">
                                         <label for="userbio">Địa điểm làm việc</label>
                                         <select class="form-control">
-                                            <option> NGSC trụ sở chính</option>
+                                            <option> HD Viet Nam trụ sở chính</option>
                                         </select>
                                     </div>
                                 </div> <!-- end col -->
@@ -338,16 +384,14 @@
                                     <div class="form-group">
                                         <label for="firstname">Vị trí</label>
                                         <select class="form-control">
-                                            <option> Chuyên viên phân tích nghiệp vụ</option>
+                                            <option> </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lastname">Chức danh</label>
-                                        <select class="form-control">
-                                            <option> Phân tích nghiệp vụ</option>
-                                        </select>
+                                        <input class="form-control" value="@Model.Employee.JobTitle?.Name" />
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
@@ -355,7 +399,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Ngày vào công ty</label>
-                                        <input type="date" class="form-control">
+                                        <input type="date" class="form-control" value="@Model.Employee.DateOfOnboard">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -397,6 +441,32 @@
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
+                            <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-script-text-outline mr-1"></i> Hợp đồng</h5>
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-nowrap mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Số HĐ</th>
+                                            <th>Họ và Tên</th>
+                                            <th>Vị trí</th>
+                                            <th>Loại HĐ</th>
+                                            <th>Hiệu lực</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>HD123455</td>
+                                            <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> @Model.Employee.Name</td>
+                                            <td>Chuyên viên lập trình</td>
+                                            <td>Không xác định thời hạn</td>
+                                            <td><a href="#" class="badge bg-success">Running</a></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </form>
                     </div>
                     <!-- end about me section content -->
@@ -452,7 +522,7 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Trung Hiếu</td>
+                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Lương Vũ Nam</td>
                                         <td>Điều chỉnh lương</td>
                                         <td>KT123455</td>
                                         <td>Công ty</td>
@@ -460,7 +530,7 @@
                                     </tr>
                                     <tr>
                                         <td>2</td>
-                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Trung Hiếu</td>
+                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Lương Vũ Nam</td>
                                         <td>Điều chỉnh lương</td>
                                         <td>KT123455</td>
                                         <td>Công ty</td>
@@ -468,7 +538,7 @@
                                     </tr>
                                     <tr>
                                         <td>3</td>
-                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Trung Hiếu</td>
+                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Lương Vũ Nam</td>
                                         <td>Khen thưởng</td>
                                         <td>KT123455</td>
                                         <td>Công ty</td>
@@ -479,37 +549,12 @@
                             </table>
                         </div>
 
-                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-script-text-outline mr-1"></i>Hợp đồng</h5>
-                        <div class="table-responsive">
-                            <table class="table table-borderless table-nowrap mb-0">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Số HĐ</th>
-                                        <th>Họ và Tên</th>
-                                        <th>Vị trí</th>
-                                        <th>Loại HĐ</th>
-                                        <th>Hiệu lực</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>HD123455</td>
-                                        <td><img src="/assets/images/users/avatar-1.jpg" alt="table-user" class="mr-2 rounded-circle" height="24"> Nguyễn Trung Hiếu</td>
-                                        <td>Chuyên viên phân tích nghiệp vụ</td>
-                                        <td>Không xác định thời hạn</td>
-                                        <td><a href="#" class="badge badge-success">Running</a></td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
+                        
 
                     </div>
                     <!-- end timeline content-->
                     <div class="tab-pane" id="daotao">
-                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-office-building mr-1"></i>Quá trình đào tạo</h5>
+                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-office-building mr-1"></i> Quá trình đào tạo</h5>
                         <div class="table-responsive">
                             <table class="table table-sm table-centered mb-0 font-14">
                                 <thead class="thead-light">
@@ -560,7 +605,7 @@
                             </table>
                         </div> <!-- end table-responsive-->
 
-                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-school mr-1"></i>Kết qủa đào tạo</h5>
+                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-school mr-1"></i> Kết qủa đào tạo</h5>
 
                         <div class="table-responsive">
                             <table class="table table-borderless mb-0">
@@ -612,6 +657,135 @@
                                         <td></td>
                                         <td>0</td>
                                     </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- tab tuyen dung-->
+                    <div class="tab-pane" id="tuyendung">
+                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-clipboard-list mr-1"></i> Thủ tục onboard</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-centered mb-0 font-14">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tên công việc</th>
+                                        <th>PIC</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Gửi email mời phỏng vấn</td>
+                                        <td>
+                                            Nguyễn Thị Hương
+                                        </td>
+                                        <td>
+                                            <a href="#" class="badge bg-success">Hoàn thành</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Gửi Offer letter</td>
+                                        <td>
+                                            Nguyễn Thị Hương
+                                        </td>
+                                        <td>
+                                            <a href="#" class="badge bg-success">Hoàn thành</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Gửi thư mời làm việc</td>
+                                        <td>
+                                            Nguyễn Thị Ánh Sáng
+                                        </td>
+                                        <td>
+                                            <a href="#" class="badge bg-success">Hoàn thành</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Gửi thông tin đào tạo hội nhập cho ứng viên</td>
+                                        <td>
+                                            Phạm Thị Hường
+                                        </td>
+                                        <td>
+                                            <a href="#" class="badge bg-success">Hoàn thành</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end table-responsive-->
+
+                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-account-group mr-1"></i> Hội đồng tuyển dụng</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-centered mb-0 font-14">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Tên</th>
+                                        <th>Vị trí</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lương Vũ Nam</td>
+                                        <td>CEO</td>
+                                        <td>
+                                            Giải đáp về chế độ, lương thưởng của công ty
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trần Ngọc Đức</td>
+                                        <td>CTO</td>
+                                        <td>
+                                            Phỏng vấn chuyên môn
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lê Văn Thành </td>
+                                        <td>Lập trình viên</td>
+                                        <td>
+                                            Dự thính
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div> <!-- end table-responsive-->
+
+                       
+                        <h5 class="mb-2 text-uppercase bg-light p-2"><i class="mdi mdi-clipboard-account mr-1"></i> CV</h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tên CV </th>
+                                        <th>Nguồn</th>
+                                        <th>Ngày ứng tuyển</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            Tên CV ứng viên.pdf
+                                        </td>
+                                        <td>Vietnamwork.com.vn</td>
+                                        <td>20/12/2021</td>
+                                        <td>
+                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="" class="btn btn-link text-muted btn-lg p-0" data-original-title="Download">
+                                                <i class="uil uil-cloud-download"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
 
                                 </tbody>
                             </table>

@@ -71,7 +71,7 @@ public static class ProfileManagerDbContextModelCreatingExtensions
             b.Property(p => p.Code).IsRequired().HasMaxLength(EmployeeConsts.CodeMaxLength);
             b.Property(p => p.Name).IsRequired().HasMaxLength(EmployeeConsts.NameMaxLength);
             b.Property(p => p.Avatar).IsRequired(false);
-            b.Property(p => p.OrganzinationId).IsRequired();
+            b.Property(p => p.OrganzinationId).IsRequired(false);
             b.Property(p => p.ProfileId).IsRequired(false);
             b.Property(p => p.JobTitleId).IsRequired(false);
 

@@ -34,9 +34,10 @@ namespace HD.ProfileManager.JobPositions
             return ObjectMapper.Map<JobPosition, JobPositionDto>(job);
         }
 
-        public Task<JobPositionDto> GetAsync(Guid id)
+        public async Task<JobPositionDto> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var data = await _jobPositionRepository.GetAsync(id);
+            return ObjectMapper.Map<JobPosition, JobPositionDto>(data);
         }
 
         public async Task<PagedResultDto<JobPositionDto>> GetListAsync(PagedAndSortedResultRequestDto input)

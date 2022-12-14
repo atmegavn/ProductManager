@@ -20,6 +20,7 @@ namespace HD.ProfileManager.OrganizationPositions
         public Organization Organization { get; set; }
         public Guid JobPositionId { get; set; }
         public JobPosition Position { get; set; }
+        //public PositionStatus Status { get; set; }
         
     }
 }

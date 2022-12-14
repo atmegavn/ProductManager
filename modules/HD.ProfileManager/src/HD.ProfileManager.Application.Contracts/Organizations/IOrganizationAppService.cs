@@ -17,8 +17,8 @@ namespace HD.ProfileManager.Organizations
         Task<List<OrganizationDto>> GetListSubOrganizationAsync(Guid id);
         Task<ListResultDto<PositionLookupDto>> GetJobPositionsAsync();
         Task<OrganizationDto> UpdateAsync(Guid id, OrganizationDto input);
-        Task<OrganizationPositionDto> AddPositionAsync(AddPositionDto input);
-        Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id);
+        Task AddPositionAsync(AddPositionDto input);
+        Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id, Guid? jobPositionId=null); 
         Task DeleteAsync(Guid id);
     }
 }

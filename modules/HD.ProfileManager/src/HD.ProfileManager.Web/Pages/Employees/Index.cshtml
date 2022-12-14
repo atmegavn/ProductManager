@@ -89,7 +89,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a href="@Url.Page("Detail",new {employeeId = employee.Id })" class="dropdown-item">View Profile</a>
+                            <a href="@Url.Page("Detail",new {id=employee.Id })" class="dropdown-item">View Profile</a>
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">Project Info</a>
                         </div>
@@ -97,22 +97,10 @@
 
                     <div class="text-center">
                         <img src="~/assets/images/users/avatar-1.jpg" class="rounded-circle avatar-md img-thumbnail" alt="friend">
-                        <h4 class="mt-3 my-1">@employee.Name <i class="mdi mdi-check-decagram text-success"></i></h4>
+                        <h4 class="mt-3 my-1">@employee.Name</h4>
                         <p class="mb-0 text-muted"><i class="mdi mdi-email-outline me-1"></i>@employee.Email</p>
                         <hr class="bg-dark-lighten my-3">
-                        <h5 class="mt-3 fw-semibold text-muted">Complate Total <b>18</b> Project</h5>
-
-                        <div class="row mt-3">
-                            <div class="col-4">
-                                <a href="javascript:void(0);" class="btn w-100 btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="mdi mdi-message-processing-outline"></i></a>
-                            </div>
-                            <div class="col-4">
-                                <a href="javascript:void(0);" class="btn w-100 btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Call"><i class="mdi mdi-phone"></i></a>
-                            </div>
-                            <div class="col-4">
-                                <a href="javascript:void(0);" class="btn w-100 btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Email"><i class="mdi mdi-email-outline"></i></a>
-                            </div>
-                        </div>
+                        <h5 class="mt-3 fw-semibold text-muted">@employee.JobTitle?.Name</h5>
                     </div>
                 </div>
             </div>

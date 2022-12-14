@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AutoMapper" Version="6.0.1" />
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="6.0.1" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <ProjectReference Include="..\HD.ProfileManager.Application.Contracts\HD.ProfileManager.Application.Contracts.csproj" />
     <ProjectReference Include="..\HD.ProfileManager.Domain\HD.ProfileManager.Domain.csproj" />
   </ItemGroup>

@@ -1,7 +1,101 @@
 ﻿@page
+@using HD.ProfileManager.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.Application.Dtos;
+@inject IStringLocalizer<ProfileManagerResource> Localizer
+
 @model HD.ProfileManager.Web.Pages.JobTitles.IndexModel
 @{
+    var currentUrl = $"{Request.PathBase}{Request.Path}{Request.QueryString}";
+    var totalCount = Model.Result.TotalCount;
+
+    var request = Model.Request;
+    long startPage = request.SkipCount + 1;
+    long endPage = request.SkipCount + request.MaxResultCount;
+    if (endPage > totalCount) endPage = totalCount;
+
+    PagedAndSortedResultRequestDto nextPaging = new PagedAndSortedResultRequestDto();
+    PagedAndSortedResultRequestDto prevPaging = new PagedAndSortedResultRequestDto();
+
+    nextPaging.SkipCount = request.SkipCount + request.MaxResultCount;
+    nextPaging.MaxResultCount = request.MaxResultCount;
+
+    prevPaging.SkipCount = request.SkipCount - request.MaxResultCount;
+    prevPaging.MaxResultCount = request.MaxResultCount;
+
+    var isDisablePrev = request.SkipCount == 0 ? "disabled" : "";
+    var isDisableNext = endPage >= totalCount ? "disabled" : "";
 }
 
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <div class="app-search">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search..." />
+                                <span class="mdi mdi-magnify search-icon"></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <h4 class="page-title">@Localizer["Job Titles"] </h4>
+            </div>
+        </div> <!-- end col -->
+    </div>
 
-job title
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-sm btn-primary" href="@Url.Page("Create")"><i class="mdi mdi-account-multiple-plus"></i> @Localizer["Job Title"]</a>
+            <nav class="float-end">
+                <ul class="pagination mb-0">
+                    <li class="page-item @isDisablePrev">
+                        <a class="page-link" href="@Url.Page("Index", prevPaging)" tabindex="-1" aria-disabled="true"><i class="mdi mdi-arrow-left-bold"></i></a>
+                    </li>
+                    <li class="page-item disabled" aria-current="page">
+                        <a class="page-link active">
+                            @{
+                                var pageInfor = Model.Result.TotalCount > 0 ? $"{startPage} - {endPage} of {totalCount} records" : Localizer["We found nothing"];
+                            }
+                            @pageInfor
+                        </a>
+                    </li>
+                    <li class="page-item @isDisableNext">
+                        <a class="page-link" href="@Url.Page("Index", nextPaging)"><i class="mdi mdi-arrow-right-bold"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-sm table-centered mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var title in Model.Result.Items)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Page("Detail", new {title.Id, backUrl=currentUrl })">@title.Name</a>
+                            </td>
+                            <td>@title.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div> <!-- End row -->

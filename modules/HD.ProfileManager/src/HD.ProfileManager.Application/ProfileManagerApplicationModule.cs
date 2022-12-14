@@ -2,6 +2,7 @@
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
+using Volo.Abp.EntityFrameworkCore;
 
 namespace HD.ProfileManager;
 
@@ -9,6 +10,7 @@ namespace HD.ProfileManager;
     typeof(ProfileManagerDomainModule),
     typeof(ProfileManagerApplicationContractsModule),
     typeof(AbpDddApplicationModule),
+    typeof(AbpEntityFrameworkCoreModule),
     typeof(AbpAutoMapperModule)
     )]
 public class ProfileManagerApplicationModule : AbpModule

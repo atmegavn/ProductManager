@@ -20,7 +20,7 @@ namespace HD.ProfileManager.Employees
         public Guid? ProfileId { get; set; }
         public Guid? JobTitleId { get; set; }
         public JobTitle JobTitle { get; set; }
-        public Guid OrganzinationId { get; set; }
+        public Guid? OrganzinationId { get; set; }
 
         public virtual ICollection<OrganizationPosition> Positions { get; set; }
 

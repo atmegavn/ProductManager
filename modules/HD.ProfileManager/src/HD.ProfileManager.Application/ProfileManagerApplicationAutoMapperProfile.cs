@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HD.ProfileManager.Employees;
 using HD.ProfileManager.JobPositions;
+using HD.ProfileManager.JobTitles;
 using HD.ProfileManager.OrganizationPositions;
 using HD.ProfileManager.Organizations;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ public class ProfileManagerApplicationAutoMapperProfile : Profile
         CreateMap<JobPosition, PositionLookupDto>();
         CreateMap<JobFamily, JobFamiliesLookupDto>();
         CreateMap<JobFamily, JobFamilyDto>();
+
+        CreateMap<JobTitle, JobTitleDto>();
+        CreateMap<JobTitle, JobTitleLookupDto>();
 
         CreateMap<OrganizationPosition, OrganizationPositionDto>();
 

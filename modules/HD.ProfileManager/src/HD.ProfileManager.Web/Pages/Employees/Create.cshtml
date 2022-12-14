@@ -65,12 +65,12 @@
                         <span asp-validation-for="Form.Name"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Form.OrganizationId" class="form-label">@Localizer["Organization"]</label>
-                        <select asp-for="Form.OrganizationId" asp-items="Model.Organizations" class="form-control"></select>
-                        <span asp-validation-for="Form.OrganizationId"></span>
+                        <label asp-for="Form.JobTitleId" class="form-label">@Localizer["Job Title"]</label>
+                        <select asp-for="Form.JobTitleId" asp-items="Model.JobTitles" class="form-control"></select>
+                        <span asp-validation-for="Form.JobTitleId"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Form.DateOfOnboard" class="form-label">@Localizer["Date Of Onboard"]</label>
+                        <label asp-for="Form.DateOfOnboard" class="form-label">@Localizer["Onboard"]</label>
                         <input type="date" asp-for="Form.DateOfOnboard" class="form-control" required>
                         <span asp-validation-for="Form.DateOfOnboard"></span>
                     </div>

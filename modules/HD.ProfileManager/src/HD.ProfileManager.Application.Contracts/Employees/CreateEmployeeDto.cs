@@ -25,7 +25,7 @@ namespace HD.ProfileManager.Employees
         public string Mobile { get; set; }
 
         [Required]
-        public Guid OrganizationId { get; set; }
+        public Guid JobTitleId { get; set; }
         public string BackUrl { get; set; }
        
     }

@@ -55,7 +55,6 @@ namespace HD.ProfileManager.Organizations
             var queryable = await _organizationRepository.WithDetailsAsync(o => o.Positions.Where(p => p.Position.JobFamily.Name == "Management"));
             queryable = queryable.Where(o => o.Id == id);
             var data = await AsyncExecuter.FirstOrDefaultAsync(queryable);
-            var pos = data.Positions.Count;
             var result = ObjectMapper.Map<Organization, OrganizationDto>(data);
             return result;
         }
@@ -102,23 +101,35 @@ namespace HD.ProfileManager.Organizations
             return new ListResultDto<PositionLookupDto>(ObjectMapper.Map<List<JobPosition>, List<PositionLookupDto>>(positions));
         }
 
-        public async Task<OrganizationPositionDto> AddPositionAsync(AddPositionDto input)
+        public async Task AddPositionAsync(AddPositionDto input)
         {
-            //var org = await _organizationRepository.GetAsync(input.OrganizationId);
-            var newPosition = new OrganizationPosition()
+            var positions = new List<OrganizationPosition>();
+            if(input.Amount > 0)
             {
-                Name = input.Name,
-                JobPositionId = input.JobPositionId,
-                OrganizationId = input.OrganizationId
-            };
-            var insert = await _organizationPositionRepository.InsertAsync(newPosition);
-
-            return ObjectMapper.Map<OrganizationPosition, OrganizationPositionDto>(insert);
+                var amount = input.Amount;
+                while(amount > 0)
+                {
+                    var newPosition = new OrganizationPosition()
+                    {
+                        Name = input.Name,
+                        JobPositionId = input.JobPositionId,
+                        OrganizationId = input.OrganizationId
+                    };
+                    positions.Add(newPosition);
+                    amount--;
+                }
+            }
+            
+            await _organizationPositionRepository.InsertManyAsync(positions);
         }
 
-        public async Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id)
+        public async Task<List<OrganizationPositionDto>> GetPositionsOfOrganization(Guid id, Guid? jobPositionId)
         {
             var queryable = await _organizationPositionRepository.WithDetailsAsync(op => op.Position);
+            if (jobPositionId.HasValue)
+            {
+                queryable = queryable.Where(op => op.JobPositionId == jobPositionId);
+            }
             queryable = queryable.Where(op => op.Position.JobFamily.Name != "Management").Where(op => op.OrganizationId == id).OrderBy(op => op.Name);
             var data = await AsyncExecuter.ToListAsync(queryable);
 

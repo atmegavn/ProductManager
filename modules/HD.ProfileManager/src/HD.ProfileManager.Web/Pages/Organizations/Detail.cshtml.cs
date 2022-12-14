@@ -13,6 +13,7 @@ namespace HD.ProfileManager.Web.Pages.Organizations
         public OrganizationDto Form { get; set; }
         public List<OrganizationDto> Organizations { get; set; }
         public List<OrganizationPositionDto> Positions { get; set; }
+        public Guid? PositionId { get; set; }
         public string BackUrl { get; set; }
         private readonly IOrganizationAppService _organizationAppService;
         public DetailModel(IOrganizationAppService organizationAppService)

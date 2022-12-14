@@ -12,6 +12,8 @@
     var backUrl = Model.BackUrl;
     ViewBag.Title = @Localizer["Create Organization"].ToString();
     var parentId = Model.Form.Id;
+    var keys = Model.Positions.Select(op => op.Position).ToList();
+    var positions = Model.Positions.GroupBy(p => p.JobPositionId).ToDictionary(gr => gr.Key, gr => gr.ToList());
 }
 
 
@@ -65,13 +67,16 @@
     <div class="col-4">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mt-0 mb-3">Information</h4>
-                <p class="text-muted font-13">
-                    @Model.Form.Description
-                </p>
-
-                <hr>
-
+                <h4 class="header-title mt-0 mb-3">@Localizer["Information"]</h4>
+                @{
+                    if (!string.IsNullOrEmpty(Model.Form.Description))
+                    {
+                        <p class="text-muted font-13">
+                            @Model.Form.Description
+                        </p>
+                        <hr>
+                    }
+                }
                 <div class="text-start">
                     <p class="text-muted"><strong>Code :</strong> <span class="ms-2">@Model.Form.Code</span></p>
 
@@ -81,6 +86,7 @@
 
                     <p class="text-muted"><strong>Location :</strong> <span class="ms-2">@Model.Form.Location</span></p>
                 </div>
+
                 @{
                     if (Model.Form.Positions.Count > 0)
                     {
@@ -95,8 +101,21 @@
                             }
                             else
                             {
-                                <p class="text-muted"><strong>@pos.Name: </strong> <i class="ms-2 float-end">@Localizer["not assigned"] </i></p>
+                                <p class="text-muted"><strong>@pos.Name: </strong> <a href="" class="float-end"><i class="mdi mdi-open-in-new"></i></a> <i class="me-2 float-end">@Localizer["not assigned"] </i></p>
                             }
+                        }
+                    }
+
+                    if (Model.Organizations.Count > 0)
+                    {
+                        <hr />
+                        <h4 class="header-title mt-0 mb-3">@Localizer["Sub Organizations"]</h4>
+                        foreach (var orgDto in Model.Organizations.OrderBy(o => o.Level))
+                        {
+                            <ul class="list-inline mb-2">
+                                <li class="list-inline-item font-16 fw-semibold"><a href="javascript:void(0);" class="text-secondary"><a href="@Url.Page("Detail", new { id = orgDto.Id, backUrl = currentUrl })">@orgDto.Name</a></a></li>
+                                <li class="list-inline-item font-13 fw-semibold text-muted">@orgDto.Level</li>
+                            </ul>
                         }
                     }
                 }
@@ -107,64 +126,6 @@
     </div>
 
     <div class="col-8">
-        @{
-            if (Model.Organizations.Count > 0)
-            {
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">
-                            @Localizer["Sub Organizations"]
-                        </h4>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-centered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Level</th>
-                                        <th>Name</th>
-                                        <th>Employees</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        if (Model.Organizations.Count > 0)
-                                        {
-                                            foreach (var orgDto in Model.Organizations.OrderBy(o => o.Level))
-                                            {
-                                                <tr>
-                                                    <td>@orgDto.Level</td>
-                                                    <td>
-                                                        <a href="@Url.Page("Detail", new { id = orgDto.Id, backUrl = currentUrl })">@orgDto.Name</a>
-                                                    </td>
-                                                    <td>@orgDto.Positions.Count</td>
-                                                    <td class="table-action">
-                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-account-multiple-plus"></i></a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td><i class="text-warning">@Localizer["There is no sub organization here"]</i></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div> <!-- end table responsive-->
-                    </div> <!-- end col-->
-                </div>
-            }
-        }
-
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">
@@ -175,19 +136,26 @@
                         <thead>
                             <tr>
                                 <th>@Localizer["Name"]</th>
-                                <th>@Localizer["Employee"]</th>
                                 <th>@Localizer["Level"]</th>
+                                <th>@Localizer["Amount"]</th>
+                                <th>@Localizer["Assigned"]</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var p in Model.Positions)
+                            @foreach (var pid in positions.Keys)
                             {
+                                var assigned = positions[pid].Where(op => op.EmployeeId.HasValue).Count();
                                 <tr>
-                                    <td>@p.Name</td>
-                                    <td>@{ var emp = p.EmployeeId.HasValue ? p.EmployeeId.ToString() : "not assigned";} <i>@emp</i></td>
-                                    <td>@p.Position.Level</td>
-                                    <td></td>
+                                    <td><a href="@Url.Page("PositionDetail", new {id=pid, orgId=parentId, backUrl=currentUrl })">@keys.FirstOrDefault(k => k.Id == pid)?.Name</a></td>
+                                    <td>@keys.FirstOrDefault()?.Level</td>
+                                    <td>@positions[pid].Count</td>
+                                    <td>@assigned / @positions[pid].Count </td>
+                                    <td>
+                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-account-multiple-plus"></i></a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

@@ -96,8 +96,8 @@
         <table class="table table-sm table-centered mb-0">
             <thead>
                 <tr>
-                    <th>Code</th>
                     <th>Name</th>
+                    <th>Code</th>
                     <th>Level</th>
                     <th style="width: 100px"></th>
                 </tr>
@@ -106,10 +106,10 @@
                 @foreach (var org in Model.Result.Items)
                 {
                     <tr>
-                        <td>@org.Code</td>
                         <td>
                             <a href="@Url.Page("Detail", new {org.Id, backUrl=currentUrl })">@org.Name</a>
                         </td>
+                        <td>@org.Code</td>
                         <td>@org.Level</td>
                     </tr>
                 }

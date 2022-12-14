@@ -1,6 +1,7 @@
 ﻿using HD.ProfileManager.Organizations;
 using HD.ProfileManager.Samples;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 
 namespace HD.ProfileManager.Employees
 {
@@ -28,7 +30,9 @@ namespace HD.ProfileManager.Employees
             employee.Code = input.Code;
             employee.Name = input.Name;
             employee.DateOfOnboard = input.DateOfOnboard;
-            employee.OrganzinationId = input.OrganizationId;
+            employee.JobTitleId = input.JobTitleId;
+            employee.Email = input.Email;
+            employee.Mobile = input.Mobile;
 
             await _employeeRepository.InsertAsync(employee);
          
@@ -37,7 +41,9 @@ namespace HD.ProfileManager.Employees
 
         async Task<PagedResultDto<EmployeeDto>> IEmployeeAppService.GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            var queryable = await _employeeRepository.GetQueryableAsync();
+            //var queryable = await _employeeRepository.GetQueryableAsync();
+            var queryable = await _employeeRepository.WithDetailsAsync(e => e.Positions);
+            queryable = queryable.Include(e => e.JobTitle);
             queryable = queryable.OrderByDescending(e => e.CreationTime).Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var data = await AsyncExecuter.ToListAsync(queryable);
@@ -58,9 +64,13 @@ namespace HD.ProfileManager.Employees
             throw new NotImplementedException();
         }
 
-        public Task<EmployeeDto> GetAsync(Guid id)
+        public async Task<EmployeeDto> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var queryable = await _employeeRepository.WithDetailsAsync(e => e.Positions);
+            queryable = queryable.Include(e => e.JobTitle).Where(e => e.Id == id);
+            var data = await AsyncExecuter.FirstOrDefaultAsync(queryable);
+            var result = ObjectMapper.Map<Employee, EmployeeDto>(data);
+            return result;
         }
 
         public Task UpdateAsync(Guid id, UpdateEmployeeDto input)
